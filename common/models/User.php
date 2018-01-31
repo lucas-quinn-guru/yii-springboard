@@ -91,15 +91,15 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findIdentity($id)
     {
-        return static::findOne(['id' => $id, 'status_id' => self::STATUS_ACTIVE]);
+        return static::findOne( [ 'id' => $id, 'status_id' => self::STATUS_ACTIVE ]);
     }
 
     /**
      * @inheritdoc
      */
-    public static function findIdentityByAccessToken($token, $type = null)
+    public static function findIdentityByAccessToken( $token, $type = null )
     {
-        throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
+        throw new NotSupportedException( '"findIdentityByAccessToken" is not implemented.' );
     }
 
     /**
@@ -108,9 +108,9 @@ class User extends ActiveRecord implements IdentityInterface
      * @param string $username
      * @return static|null
      */
-    public static function findByUsername($username)
+    public static function findByUsername( $username )
     {
-        return static::findOne(['username' => $username, 'status_id' => self::STATUS_ACTIVE]);
+        return static::findOne( [ 'username' => $username, 'status_id' => self::STATUS_ACTIVE ] );
     }
 
     /**
@@ -119,16 +119,17 @@ class User extends ActiveRecord implements IdentityInterface
      * @param string $token password reset token
      * @return static|null
      */
-    public static function findByPasswordResetToken($token)
+    public static function findByPasswordResetToken( $token )
     {
-        if (!static::isPasswordResetTokenValid($token)) {
+        if( !static::isPasswordResetTokenValid( $token ) )
+        {
             return null;
         }
 
-        return static::findOne([
+        return static::findOne( [
             'password_reset_token' => $token,
             'status_id' => self::STATUS_ACTIVE,
-        ]);
+        ] );
     }
 
     /**
@@ -139,7 +140,8 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function isPasswordResetTokenValid($token)
     {
-        if (empty($token)) {
+        if( empty( $token ) )
+        {
             return false;
         }
 	
