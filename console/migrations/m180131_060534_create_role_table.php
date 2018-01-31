@@ -4,6 +4,9 @@ use yii\db\Migration;
 
 /**
  * Handles the creation of table `role`.
+ *
+ * ./yii gii/model --tableName=role --className=Role --ns=backend\models --generateRelationsFromCurrentSchema=1
+ *
  */
 class m180131_060534_create_role_table extends Migration
 {
