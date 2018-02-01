@@ -11,10 +11,6 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\IdentityInterface;
 use yii\helpers\Security;
-use backend\models\Role;
-use backend\models\Status;
-use backend\models\UserType;
-use common\models\Profile;
 
 /**
  * User model
@@ -74,6 +70,7 @@ class User extends ActiveRecord implements IdentityInterface
 			[ [ 'role_id' ],'in', 'range'=>array_keys( self::getRoleList() ) ],
 			
 			[ 'user_type_id', 'default', 'value' => 1 ],
+			[ [ 'user_type_id' ], 'in', 'range'=>array_keys( self::getUserTypeList() ) ],
 			
             [ 'username', 'filter', 'filter' => 'trim' ],
 			[ 'username', 'required' ],
@@ -93,7 +90,16 @@ class User extends ActiveRecord implements IdentityInterface
 	public function attributeLabels()
 	{
 		return [
-			//Your other attribute lables
+			//Your other attribute labels
+			'roleName' => Yii::t( 'app', 'Role' ),
+			'statusName' => Yii::t( 'app', 'Status' ),
+			'profileId' => Yii::t( 'app', 'Profile' ),
+			'profileLink' => Yii::t( 'app', 'Profile' ),
+			'userLink' => Yii::t( 'app', 'User' ),
+			'username' => Yii::t( 'app', 'User' ),
+			'userTypeName' => Yii::t( 'app', 'User Type' ),
+			'userTypeId' => Yii::t( 'app', 'User Type' ),
+			'userIdLink' => Yii::t( 'app', 'ID' ),
 		];
 	}
 	
@@ -231,16 +237,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->password_reset_token = null;
     }
-	
-	/**
-	 * Get Profile relationship
-	 *
-	 * @return \yii\db\ActiveQuery
-	 */
-    public function getProfile()
-	{
-		return $this->hasOne( Profile::className(), [ 'user_id'=>'id' ] );
-	}
+    
 	
 	/**
 	 * Get Role relationship
@@ -305,7 +302,39 @@ class User extends ActiveRecord implements IdentityInterface
 	}
 	
 	/**
-	 * Get the user type for the specifed user model
+	 * Get Profile relationship
+	 *
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getProfile()
+	{
+		return $this->hasOne( Profile::className(), [ 'user_id'=>'id' ] );
+	}
+	
+	/**
+	 * get the profile id of the specified user.
+	 *
+	 * @return string
+	 */
+	public function getProfileId()
+	{
+		return $this->profile ? $this->profile->id : 'none';
+	}
+	
+	/**
+	 * get the profile link of specified user model
+	 *
+	 * @return string
+	 */
+	public function getProfileLink()
+	{
+		$url = Url::to( ['profile/view', 'id'=>$this->profileId ] );
+		$options = [];
+		return Html::a( $this->profile ? 'profile' : 'none', $url, $options );
+	}
+	
+	/**
+	 * Get the user type for the specified user model
 	 *
 	 * @return \yii\db\ActiveQuery
 	 */
@@ -346,28 +375,6 @@ class User extends ActiveRecord implements IdentityInterface
 	}
 	
 	/**
-	 * get the profile id of the specified user.
-	 *
-	 * @return string
-	 */
-	public function getProfileId()
-	{
-		return $this->profile ? $this->profile->id : 'none';
-	}
-	
-	/**
-	 * get the profile link of specified user model
-	 *
-	 * @return string
-	 */
-	public function getProfileLink()
-	{
-		$url = Url::to( ['profile/view', 'id'=>$this->profileId ] );
-		$options = [];
-		return Html::a( $this->profile ? 'profile' : 'none', $url, $options );
-	}
-	
-	/**
 	 * get the html link to user.
 	 *
 	 * @return string
@@ -378,5 +385,13 @@ class User extends ActiveRecord implements IdentityInterface
 		$options = [];
 		return Html::a( $this->id, $url, $options );
 	}
+	
+	public function getUserLink()
+	{
+		$url = Url::to( [ 'user/view', 'id'=>$this->id ] );
+		$options = [];
+		return Html::a( $this->username, $url, $options );
+	}
+	
 	
 }
