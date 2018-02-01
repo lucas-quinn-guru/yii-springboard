@@ -14,8 +14,8 @@ class m180131_061213_create_user_type_table extends Migration
     {
         $this->createTable('user_type', [
             'id' => $this->primaryKey(),
-			'user_type_name' => $this->string( 45 ),
-			'user_type_value' => $this->integer()
+			'user_type_name' => $this->string( 45 )->notNull(),
+			'user_type_value' => $this->integer()->notNull()
         ]);
     }
 

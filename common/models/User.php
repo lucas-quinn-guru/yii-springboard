@@ -7,10 +7,14 @@ use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\db\Expression;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\web\IdentityInterface;
 use yii\helpers\Security;
 use backend\models\Role;
 use backend\models\Status;
+use backend\models\UserType;
+use common\models\Profile;
 
 /**
  * User model
@@ -64,8 +68,11 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             [ 'status_id', 'default', 'value' => self::STATUS_ACTIVE],
+			[ [ 'status_id' ], 'in', 'range'=>array_keys( self::getStatusList() ) ],
+			
 			[ 'role_id', 'default', 'value' => 1 ],
-			[ [ 'role_id' ],'in', 'range'=>array_keys( $this->getRoleList() ) ],
+			[ [ 'role_id' ],'in', 'range'=>array_keys( self::getRoleList() ) ],
+			
 			[ 'user_type_id', 'default', 'value' => 1 ],
 			
             [ 'username', 'filter', 'filter' => 'trim' ],
@@ -260,11 +267,116 @@ class User extends ActiveRecord implements IdentityInterface
 	 *
 	 * @return array
 	 */
-	public function getRoleList()
+	public static function getRoleList()
 	{
 		$droptions = Role::find()->asArray()->all();
 		return ArrayHelper::map( $droptions, 'id', 'role_name' );
 	}
 	
+	/**
+	 * Get the user status relationship
+	 *
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getStatus()
+	{
+		return $this->hasOne( Status::className(), [ 'id'=>'status_id' ] );
+	}
+	
+	/**
+	 * Get the name of the status assigned to the user
+	 *
+	 * @return string
+	 */
+	public function getStatusName()
+	{
+		return $this->status ? $this->status->status_name : '- no status -';
+	}
+	
+	/**
+	 * Get the available status list
+	 *
+	 * @return array
+	 */
+	public static function getStatusList()
+	{
+		$droptions = Status::find()->asArray()->all();
+		return ArrayHelper::map( $droptions, 'id', 'status_name' );
+	}
+	
+	/**
+	 * Get the user type for the specifed user model
+	 *
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getUserType()
+	{
+		return $this->hasOne( UserType::className(), [ "id", "user_type_id" ] );
+	}
+	
+	/**
+	 * Get the user type name
+	 *
+	 * @return string
+	 */
+	public function getUserTypeName()
+	{
+		return $this->userType ? $this->userType->user_type_name : '- no user type -';
+	}
+	
+	/**
+	 * Get an array of the user type list key value pair.  Mainly used for dropdowns
+	 *
+	 * @return array
+	 */
+	public function getUserTypeList()
+	{
+		$droptions = UserType::find()->asArray()->all();
+		return ArrayHelper::map( $droptions, 'id', 'user_type_name' );
+	}
+	
+	/**
+	 * Get the user type id.
+	 *
+	 * @return string
+	 */
+	public function getUserTypeId()
+	{
+		return $this->userType ? $this->userType->id : 'none';
+	}
+	
+	/**
+	 * get the profile id of the specified user.
+	 *
+	 * @return string
+	 */
+	public function getProfileId()
+	{
+		return $this->profile ? $this->profile->id : 'none';
+	}
+	
+	/**
+	 * get the profile link of specified user model
+	 *
+	 * @return string
+	 */
+	public function getProfileLink()
+	{
+		$url = Url::to( ['profile/view', 'id'=>$this->profileId ] );
+		$options = [];
+		return Html::a( $this->profile ? 'profile' : 'none', $url, $options );
+	}
+	
+	/**
+	 * get the html link to user.
+	 *
+	 * @return string
+	 */
+	public function getUserIdLink()
+	{
+		$url = Url::to( [ 'user/update', 'id'=>$this->id ] );
+		$options = [];
+		return Html::a( $this->id, $url, $options );
+	}
 	
 }

@@ -31,7 +31,8 @@ class m180131_180155_create_profile_table extends Migration
      */
     public function down()
     {
+		//$this->dropForeignKey( "FK_profile_to_gender", "profile");
         $this->dropTable('profile');
-        $this->dropForeignKey( "FK_profile_to_gender", "profile");
+        
     }
 }

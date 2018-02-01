@@ -15,7 +15,7 @@ class m180131_061008_create_status_table extends Migration
         $this->createTable('status', [
             'id' => $this->primaryKey(),
 			'status_name' => $this->string( 45 )->notNull(),
-			'status_value' => $this->integer( 11 )
+			'status_value' => $this->integer( 11 )->notNull()
         ]);
     }
 
