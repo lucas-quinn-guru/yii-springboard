@@ -13,7 +13,7 @@ class m180131_061008_create_status_table extends Migration
     public function up()
     {
         $this->createTable('status', [
-            'id' => $this->primaryKey(),
+            'id' => $this->primaryKey()->unsigned(),
 			'status_name' => $this->string( 45 )->notNull(),
 			'status_value' => $this->integer( 11 )->notNull()
         ]);

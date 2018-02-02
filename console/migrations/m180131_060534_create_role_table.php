@@ -16,7 +16,7 @@ class m180131_060534_create_role_table extends Migration
     public function up()
     {
         $this->createTable('role', [
-            'id' => $this->primaryKey(),
+            'id' => $this->primaryKey()->unsigned(),
 			'role_name' => $this->string( 45 )->notNull(),
 			'role_value' => $this->integer()->notNull()
         ]);

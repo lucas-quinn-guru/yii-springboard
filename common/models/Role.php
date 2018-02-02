@@ -48,6 +48,13 @@ class Role extends \yii\db\ActiveRecord
     
     public function getUsers()
 	{
-		return $this->hasMany( User::className(), [ 'role_id'=>'id' ] );
+		//return $this->hasMany( User::className(), [ 'role_id'=>'id' ] );
+		
+		return $this->hasMany( User::className(), [ 'id'=>'user_id' ] )
+			->viaTable( 'role_user', [ 'role_id' => 'id' ] );
+		
+		//The following comes from the User Model as an example
+		//return $this->hasMany( Role::className(), [ 'id' => 'role_id' ] )
+		//	->viaTable( 'role_user', [ 'user_id' => 'id' ] );
 	}
 }

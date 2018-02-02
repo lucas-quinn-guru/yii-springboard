@@ -13,7 +13,7 @@ class m180131_061213_create_user_type_table extends Migration
     public function up()
     {
         $this->createTable('user_type', [
-            'id' => $this->primaryKey(),
+            'id' => $this->primaryKey()->unsigned(),
 			'user_type_name' => $this->string( 45 )->notNull(),
 			'user_type_value' => $this->integer()->notNull()
         ]);
