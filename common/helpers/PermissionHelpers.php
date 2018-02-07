@@ -42,13 +42,37 @@ class PermissionHelpers
 			$max_role_value = 0;
 			foreach( $usersRoleValues as $roleValues )
 			{
-				if( $roleValues[ ''])
+				if( $roleValues[ 'role_value' ] > $max_role_value )
+				{
+					$max_role_value = $roleValues[ 'role_value' ];
+				}
 			}
 
-			return $usersRoleValues >= ValueHelpers::getRoleValue($role_name) ? true : false;
+			return $max_role_value >= ValueHelpers::getRoleValue( $role_name ) ? true : false;
 		} else
 		{
 			return false;
 		}
+	}
+
+	public static function userMustBeOwner( $model_name, $model_id )
+	{
+		$connection = \Yii::$app->db;
+
+		$userId = Yii::$app->user->identity->id;
+
+		$sql = "SELECT id FROM $model_name 
+					WHERE user_id=:userId AND id=:model_id";
+
+		$command = $connection->createCommand( $sql );
+		$command->bindValue( ":userId", $userId );
+		$command->bindValue( ":model_id", $model_id );
+
+		if( $result = $command->queryOne() )
+		{
+			return true;
+		}
+
+		return false;
 	}
 }
