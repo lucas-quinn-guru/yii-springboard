@@ -1,4 +1,5 @@
 <?php
+
 namespace common\models\Forms;
 
 use Yii;

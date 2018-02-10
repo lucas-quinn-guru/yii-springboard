@@ -8,10 +8,10 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\Forms\LoginForm;
-use frontend\models\PasswordResetRequestForm;
-use frontend\models\ResetPasswordForm;
-use frontend\models\SignupForm;
-use frontend\models\ContactForm;
+use frontend\models\forms\PasswordResetRequestForm;
+use frontend\models\forms\ResetPasswordForm;
+use frontend\models\forms\SignupForm;
+use frontend\models\forms\ContactForm;
 
 /**
  * Site controller
@@ -82,17 +82,20 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-        if (!Yii::$app->user->isGuest) {
+        if( !Yii::$app->user->isGuest )
+        {
             return $this->goHome();
         }
 
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+        if( $model->load( Yii::$app->request->post() ) && $model->login() )
+        {
             return $this->goBack();
-        } else {
+        } else
+        {
             return $this->render('login', [
                 'model' => $model,
-            ]);
+            ] );
         }
     }
 
@@ -116,15 +119,19 @@ class SiteController extends Controller
     public function actionContact()
     {
         $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
+        if( $model->load(Yii::$app->request->post() ) && $model->validate() )
+        {
+            if( $model->sendEmail(Yii::$app->params[ 'adminEmail' ] ) )
+            {
                 Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
-            } else {
+            } else
+            {
                 Yii::$app->session->setFlash('error', 'There was an error sending your message.');
             }
 
             return $this->refresh();
-        } else {
+        } else
+        {
             return $this->render('contact', [
                 'model' => $model,
             ]);
