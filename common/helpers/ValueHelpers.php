@@ -32,7 +32,7 @@ class ValueHelpers
 	}
 
 
-	public static function getUsersRoleValues( $userId=null )
+	public static function getUsersRoleValues( $userId = null )
 	{
 		if( $userId == null )
 		{
@@ -44,9 +44,12 @@ class ValueHelpers
 		} else
 		{
 			$user = User::findOne( $userId );
-			$userRoles = $user->getRoleList;
+			$userRoles = $user->getRoleList();
 			$userRoleValues = ArrayHelper::getColumn( $userRoles, 'role_id' );
 
+
+			echo print_r( $userRoles, true );
+			exit;
 
 			return isset( $userRoleValues ) && count( $userRoleValues ) > 0 ? $userRoleValues : false;
 		}

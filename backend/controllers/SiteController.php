@@ -22,20 +22,20 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login', 'error'],
+                        'actions' => [ 'login', 'error' ],
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index'],
+                        'actions' => [ 'logout', 'index' ],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => [ '@' ],
                     ],
                 ],
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'logout' => ['post'],
+                    'logout' => [ 'post' ],
                 ],
             ],
         ];
@@ -70,17 +70,20 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-        if (!Yii::$app->user->isGuest) {
+        if( !Yii::$app->user->isGuest )
+        {
             return $this->goHome();
         }
 
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+        if( $model->load( Yii::$app->request->post() ) && $model->loginAdmin() )
+        {
             return $this->goBack();
-        } else {
+        } else
+        {
             return $this->render('login', [
                 'model' => $model,
-            ]);
+            ] );
         }
     }
 

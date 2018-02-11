@@ -195,7 +195,7 @@ class SiteController extends Controller
 
         return $this->render('requestPasswordResetToken', [
             'model' => $model,
-        ]);
+        ] );
     }
 
     /**
@@ -203,15 +203,17 @@ class SiteController extends Controller
      *
      * @param string $token
      * @return mixed
+     *
      * @throws BadRequestHttpException
      */
     public function actionResetPassword( $token )
     {
-        try {
+        try
+        {
             $model = new ResetPasswordForm( $token );
-        } catch (InvalidParamException $e)
+        } catch( InvalidParamException $e )
 		{
-            throw new BadRequestHttpException($e->getMessage());
+            throw new BadRequestHttpException( $e->getMessage() );
         }
 
         if( $model->load( Yii::$app->request->post() ) && $model->validate() && $model->resetPassword() )

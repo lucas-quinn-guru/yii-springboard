@@ -24,7 +24,7 @@ class PasswordResetRequestForm extends Model
             ['email', 'email'],
             ['email', 'exist',
                 'targetClass' => '\common\models\User',
-                'filter' => ['status' => User::STATUS_ACTIVE],
+                'filter' => ['status_id' => User::STATUS_ACTIVE],
                 'message' => 'There is no user with this email address.'
             ],
         ];
@@ -38,18 +38,21 @@ class PasswordResetRequestForm extends Model
     public function sendEmail()
     {
         /* @var $user User */
-        $user = User::findOne([
-            'status' => User::STATUS_ACTIVE,
+        $user = User::findOne( [
+            'status_id' => User::STATUS_ACTIVE,
             'email' => $this->email,
-        ]);
+        ] );
 
-        if (!$user) {
+        if( !$user )
+        {
             return false;
         }
         
-        if (!User::isPasswordResetTokenValid($user->password_reset_token)) {
+        if( !User::isPasswordResetTokenValid( $user->password_reset_token ) )
+        {
             $user->generatePasswordResetToken();
-            if (!$user->save()) {
+            if( !$user->save() )
+            {
                 return false;
             }
         }
@@ -57,12 +60,12 @@ class PasswordResetRequestForm extends Model
         return Yii::$app
             ->mailer
             ->compose(
-                ['html' => 'passwordResetToken-html', 'text' => 'passwordResetToken-text'],
-                ['user' => $user]
+                [ 'html' => 'passwordResetToken-html', 'text' => 'passwordResetToken-text' ],
+                [ 'user' => $user ]
             )
-            ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])
-            ->setTo($this->email)
-            ->setSubject('Password reset for ' . Yii::$app->name)
+            ->setFrom( [ Yii::$app->params[ 'supportEmail' ] => Yii::$app->name . ' robot' ] )
+            ->setTo( $this->email )
+            ->setSubject( 'Password reset for ' . Yii::$app->name )
             ->send();
     }
 }

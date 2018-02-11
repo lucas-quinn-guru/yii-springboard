@@ -36,7 +36,7 @@ class PermissionHelpers
 				$usersRoleValues = ValueHelpers::getUsersRoleValues();
 			} else
 			{
-				$usersRoleValues = ValueHelpers::getUsersRoleValues($userId);
+				$usersRoleValues = ValueHelpers::getUsersRoleValues( $userId );
 			}
 
 			$max_role_value = 0;
