@@ -10,7 +10,7 @@ use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
 
-AppAsset::register($this);
+AppAsset::register( $this );
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -45,17 +45,32 @@ AppAsset::register($this);
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
     } else {
 		$menuItems[] = [
-			'label' => 'My Account (' . Yii::$app->user->identity->username . ')',
-			'url' => [ '/account/index' ]
-		];
-        $menuItems[] = '<li>'
-            . Html::beginForm(['/site/logout'], 'post')
-            . Html::submitButton(
-                'Logout',
-                ['class' => 'btn btn-link logout']
-            )
-            . Html::endForm()
-            . '</li>';
+		        'label' => 'My Account (' . Yii::$app->user->identity->username . ')',
+                'items' => [
+                    [
+					    'label' => 'Dashboard',
+					    'url' => [ '/account/index' ]
+				    ],
+				    [
+                        'label' => 'Profile',
+                        'url' => ['/profile/view']
+                    ],
+                    [
+                        'label'=>'Log Out',
+                        'url' => ['/site/logout'],
+                        'linkOptions' => ['data-method' => 'post']
+				    ]
+                ]
+        ];
+		//$menuItems[] = ;
+        //$menuItems[] = '<li>'
+        //    . Html::beginForm(['/site/logout'], 'post')
+         //   . Html::submitButton(
+         //       'Logout',
+         //       ['class' => 'btn btn-link logout']
+         //   )
+         //   . Html::endForm()
+         //   . '</li>';
     }
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
