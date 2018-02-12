@@ -62,11 +62,16 @@ FontAwesomeAsset::register( $this );
 
     if( !Yii::$app->user->isGuest && $is_admin )
     {
-	    $menuItems[] = [ 'label' => 'Users', 'url' => [ 'user/index' ] ];
-	    $menuItems[] = [ 'label' => 'Profiles', 'url' => [ 'profile/index' ] ];
-	    $menuItems[] = [ 'label' => 'Roles', 'url' => [ 'role/index' ] ];
-	    $menuItems[] = [ 'label' => 'User Types', 'url' => [ 'user-type/index' ] ];
-	    $menuItems[] = [ 'label' => 'Statuses', 'url' => [ 'status/index' ] ];
+    	$menuItems[] = [
+			'label' => 'User Administration',
+			'items' => [
+				[ 'label' => 'Users', 'url' => [ 'user/index' ] ],
+				[ 'label' => 'Profiles', 'url' => [ 'profile/index' ] ],
+				[ 'label' => 'Roles', 'url' => [ 'role/index' ] ],
+				[ 'label' => 'User Types', 'url' => [ 'user-type/index' ] ],
+				[ 'label' => 'Statuses', 'url' => [ 'status/index' ] ]
+			]
+		];
     }
 
 
@@ -76,9 +81,15 @@ FontAwesomeAsset::register( $this );
     } else
     {
 	    $menuItems[] = [
-		    'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
-		    'url' => ['/site/logout'],
-		    'linkOptions' => ['data-method' => 'post']
+			'label' => 'My Account (' . Yii::$app->user->identity->username . ')',
+			'items' => [
+				[ 'label'=>'Frontend', 'url'=>"http://mbarrus.marcellusrocks.com" ],
+				[
+					'label' => 'Logout',
+					'url' => ['/site/logout'],
+					'linkOptions' => ['data-method' => 'post']
+				]
+			]
 	    ];
     }
 

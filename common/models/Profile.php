@@ -60,7 +60,7 @@ class Profile extends \yii\db\ActiveRecord
             [ [ 'user_id', 'gender_id' ], 'integer' ],
 			
             [ [ 'birthdate', 'created_at', 'updated_at' ], 'safe' ],
-			[ [ 'birthdate' ], 'date', 'format'=>'Y-m-d' ],
+			[ [ 'birthdate' ], 'date', 'format'=>'php:Y-m-d' ],
 			
             [ [ 'first_name', 'last_name' ], 'string', 'max' => 60 ],
 			

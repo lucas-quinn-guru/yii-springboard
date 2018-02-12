@@ -12,18 +12,22 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
+    <?= $form->field( $model, 'username' )->textInput( [ 'maxlength' => 255 ] ) ?>
 
-    <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'role_id')->textInput() ?>
-
-    <?= $form->field($model, 'status_id')->textInput() ?>
-
-    <?= $form->field($model, 'user_type_id')->textInput() ?>
+    <?= $form->field( $model, 'email' )->textInput( [ 'maxlength' => 255 ] ) ?>
+	
+	<?= $form->field( $model, 'role_id' )->dropDownList( $model->roleList,
+		[ 'prompt' => 'Please Choose One' ] ); ?>
+	
+	<?= $form->field( $model, 'status_id' )->dropDownList( $model->statusList,
+		[ 'prompt' => 'Please Choose One' ] ); ?>
+	
+	<?= $form->field( $model, 'user_type_id' )->dropDownList( $model->userTypeList,
+		[ 'prompt' => 'Please Choose One' ] ); ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+		<?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update',
+			[ 'class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary' ] ) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

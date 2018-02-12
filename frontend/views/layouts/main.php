@@ -49,19 +49,10 @@ FontAwesomeAsset::register($this);
 		$menuItems[] = [
 		        'label' => 'My Account (' . Yii::$app->user->identity->username . ')',
                 'items' => [
-                    [
-					    'label' => 'Dashboard',
-					    'url' => [ '/account/index' ]
-				    ],
-				    [
-                        'label' => 'Profile',
-                        'url' => ['/profile/view']
-                    ],
-                    [
-                        'label'=>'Log Out',
-                        'url' => ['/site/logout'],
-                        'linkOptions' => ['data-method' => 'post']
-				    ]
+                    [ 'label' => 'Dashboard', 'url' => [ '/account/index' ] ],
+				    [ 'label' => 'Profile', 'url' => [ '/profile/view' ] ],
+					[ 'label' => 'Backend', 'url' => 'http://mbarrusbackend.marcellusrocks.com' ],
+                    [ 'label'=>'Log Out', 'url' => [ '/site/logout' ], 'linkOptions' => [ 'data-method' => 'post' ] ]
                 ]
         ];
 		//$menuItems[] = ;
