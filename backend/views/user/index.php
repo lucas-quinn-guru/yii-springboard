@@ -1,7 +1,8 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+//use yii\grid\GridView;
+use kartik\grid\GridView;
 use \yii\bootstrap\Collapse;
 
 /* @var $this yii\web\View */
@@ -54,9 +55,16 @@ $this->params['breadcrumbs'][] = $this->title;
 			['class' => 'yii\grid\ActionColumn'],
 			
 			
+			
 			// 'updated_at',
 		
 		
+		],
+		'responsive'=>true,
+		'hover'=>true,
+		'pjax'=>true,
+		'pjaxSettings'=>[
+			'neverTimeout'=>true,
 		],
 	]); ?>
 

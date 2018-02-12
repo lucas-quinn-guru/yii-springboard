@@ -117,7 +117,6 @@ class UserSearch extends User
 		
 		if( !( $this->load( $params ) && $this->validate() ) )
 		{
-			
 			$query->joinWith( [ 'role' ] )
 				->joinWith( [ 'status'] )
 				->joinWith( [ 'profile' ] )
@@ -135,40 +134,29 @@ class UserSearch extends User
 		$this->addSearchParameter( $query, 'created_at' );
 		$this->addSearchParameter( $query, 'updated_at' );
 		
-		
 		// filter by role
-		
 		$query->joinWith( [ 'role' => function ( $q )
 		{
 			$q->andFilterWhere( [ '=', 'role.role_name', $this->roleName ] );
-		}])
+		}]);
 			
-			// filter by status
+		// filter by status
+		$query->joinWith( [ 'status' => function ( $q )
+		{
+			$q->andFilterWhere( [ '=', 'status.status_name', $this->statusName ] );
+		}]);
 			
-			->joinWith( [ 'status' => function ( $q )
-			{
-				
-				$q->andFilterWhere( [ '=', 'status.status_name', $this->statusName ] );
-				
-			}])
+		// filter by user type
+		$query->joinWith( [ 'userType' => function ( $q )
+		{
+			$q->andFilterWhere( [ '=', 'user_type.user_type_name', $this->userTypeName ] );
+		} ] );
 			
-			// filter by user type
-			
-			->joinWith( [ 'userType' => function ( $q )
-			{
-				
-				$q->andFilterWhere( [ '=', 'user_type.user_type_name', $this->userTypeName ] );
-				
-			} ] )
-			
-			// filter by profile
-			
-			->joinWith( [ 'profile' => function ( $q )
-			{
-				
-				$q->andFilterWhere( [ '=', 'profile.id', $this->profileId ] );
-				
-			}] );
+		// filter by profile
+		$query->joinWith( [ 'profile' => function ( $q )
+		{
+			$q->andFilterWhere( [ '=', 'profile.id', $this->profileId ] );
+		}] );
 		
 		return $dataProvider;
 	}
