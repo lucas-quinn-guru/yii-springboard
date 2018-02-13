@@ -1,8 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
-use yii\widgets\Pjax;
+use kartik\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\search\RoleSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -13,8 +12,6 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="role-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php Pjax::begin(); ?>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
         <?= Html::a('Create Role', ['create'], ['class' => 'btn btn-success']) ?>
@@ -22,16 +19,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+        //'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'role_name',
-            'role_value',
+            
+            'name',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-    <?php Pjax::end(); ?>
 </div>

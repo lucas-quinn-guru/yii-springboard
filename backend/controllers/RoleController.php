@@ -3,12 +3,13 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\Role;
+use backend\models\forms\RoleForm;
 use backend\models\search\RoleSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use common\helpers\PermissionHelpers;
+use yii\data\ArrayDataProvider;
 
 /**
  * RoleController implements the CRUD actions for Role model.
@@ -64,6 +65,7 @@ class RoleController extends Controller
      */
     public function actionIndex()
     {
+    	/*
         $searchModel = new RoleSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -71,6 +73,28 @@ class RoleController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+    	*/
+	
+		$auth = Yii::$app->authManager;
+		
+		$roles = $auth->getRoles();
+		
+		echo print_r( $roles, true );
+		exit;
+	
+		$datProvider = new ArrayDataProvider([
+			'allModels' => $roles,
+			'pagination' => [
+				'pageSize' => 10,
+			],
+			'sort' => [
+				//'attributes' => ['id', 'name'],
+			],
+		]);
+		
+    	return $this->render( 'index', [
+			'dataProvider' => $datProvider
+		] );
     }
 
     /**
@@ -93,10 +117,12 @@ class RoleController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Role();
+		$auth = Yii::$app->authManager;
+		
+        $model = new RoleForm();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'name' => $model->name]);
         }
 
         return $this->render('create', [
