@@ -8,6 +8,7 @@ use backend\models\search\UserSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use common\helpers\PermissionHelpers;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -17,17 +18,45 @@ class UserController extends Controller
     /**
      * @inheritdoc
      */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
+	public function behaviors()
+	{
+		return [
+			
+			'access' => [
+				'class' => \yii\filters\AccessControl::className(),
+				'only' => ['index', 'view','create', 'update', 'delete'],
+				'rules' => [
+					[
+						'actions' => ['index', 'create', 'view',],
+						'allow' => true,
+						'roles' => ['@'],
+						'matchCallback' => function ($rule, $action) {
+							return PermissionHelpers::requireMinimumRole('Admin')
+								&& PermissionHelpers::requireStatus('Active');
+						}
+					],
+					[
+						'actions' => [ 'update', 'delete'],
+						'allow' => true,
+						'roles' => ['@'],
+						'matchCallback' => function ($rule, $action) {
+							return PermissionHelpers::requireMinimumRole('SuperUser')
+								&& PermissionHelpers::requireStatus('Active');
+						}
+					],
+				
+				],
+			
+			],
+			
+			'verbs' => [
+				'class' => VerbFilter::className(),
+				'actions' => [
+					'delete' => ['post'],
+				],
+			],
+		];
+	}
 
     /**
      * Lists all User models.
