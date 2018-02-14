@@ -3,18 +3,44 @@
 namespace backend\controllers;
 
 use Yii;
+use yii\web\Response;
 use common\models\User;
 use backend\models\search\UserSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use common\helpers\PermissionHelpers;
+use backend\models\rbac\AssignmentModel;
+use backend\models\rbac\search\AssignmentSearch;
 
 /**
  * UserController implements the CRUD actions for User model.
  */
 class UserController extends Controller
 {
+	/**
+	 * @var \yii\web\IdentityInterface the class name of the [[identity]] object
+	 */
+	public $userIdentityClass;
+	/**
+	 * @var string search class name for assignments search
+	 */
+	public $searchClass = [
+		'class' => AssignmentSearch::class,
+	];
+	/**
+	 * @var string id column name
+	 */
+	public $idField = 'id';
+	/**
+	 * @var string username column name
+	 */
+	public $usernameField = 'username';
+	/**
+	 * @var array assignments GridView columns
+	 */
+	public $gridViewColumns = [];
+
     /**
      * @inheritdoc
      */
@@ -52,10 +78,38 @@ class UserController extends Controller
 			'verbs' => [
 				'class' => VerbFilter::className(),
 				'actions' => [
-					'delete' => ['post'],
+					'index' => ['get'],
+					'view' => ['get'],
+					'assign' => ['post'],
+					'remove' => ['post'],
+				],
+			],
+			'contentNegotiator' => [
+				'class' => 'yii\filters\ContentNegotiator',
+				'only' => ['assign', 'remove'],
+				'formats' => [
+					'application/json' => Response::FORMAT_JSON,
 				],
 			],
 		];
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function init()
+	{
+		parent::init();
+		if ($this->userIdentityClass === null) {
+			$this->userIdentityClass = Yii::$app->user->identityClass;
+		}
+		if( empty( $this->gridViewColumns ) )
+		{
+			$this->gridViewColumns = [
+				$this->idField,
+				$this->usernameField,
+			];
+		}
 	}
 
     /**
@@ -83,6 +137,7 @@ class UserController extends Controller
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
+	        'permissionModel' => $this->findPermissionModel( $id )
         ]);
     }
 
@@ -153,4 +208,58 @@ class UserController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+	/**
+	 * Assign items
+	 *
+	 * @param int $id
+	 *
+	 * @return array
+	 */
+	public function actionAssign( int $id )
+	{
+		$items = Yii::$app->getRequest()->post('items', []);
+
+		$assignmentModel = $this->findPermissionModel( $id );
+		$assignmentModel->assign( $items );
+
+		return $assignmentModel->getItems();
+	}
+
+	/**
+	 * Remove items
+	 *
+	 * @param int $id
+	 *
+	 * @return array
+	 */
+	public function actionRemove(int $id)
+	{
+		$items = Yii::$app->getRequest()->post('items', [] );
+
+		$assignmentModel = $this->findPermissionModel( $id );
+		$assignmentModel->revoke( $items );
+
+		return $assignmentModel->getItems();
+	}
+
+	/**
+	 * Finds the Assignment model based on its primary key value.
+	 * If the model is not found, a 404 HTTP exception will be thrown.
+	 *
+	 * @param int $id
+	 *
+	 * @return AssignmentModel the loaded model
+	 *
+	 * @throws NotFoundHttpException if the model cannot be found
+	 */
+	protected function findPermissionModel(int $id)
+	{
+		$class = $this->userIdentityClass;
+		if( ( $user = $class::findIdentity( $id ) ) !== null )
+		{
+			return new AssignmentModel( $user );
+		}
+		throw new NotFoundHttpException('The requested page does not exist.' );
+	}
 }

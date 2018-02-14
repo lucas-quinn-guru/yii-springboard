@@ -106,7 +106,7 @@ class AssignmentController extends Controller
 	 */
 	public function actionView(int $id)
 	{
-		$model = $this->findModel($id);
+		$model = $this->findModel( $id );
 		return $this->render('view', [
 			'model' => $model,
 			'usernameField' => $this->usernameField,
@@ -156,7 +156,7 @@ class AssignmentController extends Controller
 		if (($user = $class::findIdentity($id)) !== null) {
 			return new AssignmentModel( $user );
 		}
-		throw new NotFoundHttpException(Yii::t('yii2mod.rbac', 'The requested page does not exist.'));
+		throw new NotFoundHttpException('The requested page does not exist.' );
 	}
 	
 	/**

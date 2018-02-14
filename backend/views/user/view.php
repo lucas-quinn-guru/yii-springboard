@@ -4,6 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use common\helpers\PermissionHelpers;
 
+use yii\helpers\Json;
+use backend\assets\RbacAsset;
+
+RbacAsset::register( $this );
+
 /* @var $this yii\web\View */
 /* @var $model common\models\User */
 
@@ -50,5 +55,14 @@ $this->params['breadcrumbs'][] = $this->title;
 			'id',
         ],
     ]) ?>
+
+    <h3>Roles and Permissions</h3>
+	<?php echo $this->render('../_dualListBox', [
+		'opts' => Json::htmlEncode([
+			'items' => $permissionModel->getItems(),
+		]),
+		'assignUrl' => ['assign', 'id' => $permissionModel->userId],
+		'removeUrl' => ['remove', 'id' => $permissionModel->userId],
+	]); ?>
 
 </div>
