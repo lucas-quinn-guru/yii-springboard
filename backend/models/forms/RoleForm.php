@@ -14,8 +14,9 @@ use common\helpers\PermissionHelpers;
  */
 class RoleForm extends Model
 {
-    public $role;
+    public $name;
     public $description;
+    public $name_original;
   
     private $_role;
 
@@ -27,7 +28,7 @@ class RoleForm extends Model
     {
         return [
             // username and password are both required
-            [ [ 'role' ], 'required' ],
+            [ [ 'name' ], 'required' ],
         ];
     }
 	
@@ -37,12 +38,13 @@ class RoleForm extends Model
 	public function attributeLabels()
 	{
 		return [
-			'role' => 'Role Name',
+			'name' => 'Role Name',
+			'description' => 'Description',
 		];
 	}
 	
 	/**
-	 * Signs user up.
+	 * Adds a role.
 	 *
 	 * @return boolean the saved model or null if saving fails
 	 * @throws
@@ -55,8 +57,31 @@ class RoleForm extends Model
 		}
 		
 		$auth = Yii::$app->authManager;
-		$authRole = $auth->createRole( $this->role );
+		$authRole = $auth->createRole( $this->name );
 		$authRole->description = $this->description;
+		
+		$auth->add( $authRole );
+		return true;
+	}
+	
+	/**
+	 * Updates a role.
+	 *
+	 * @return boolean the saved model or null if saving fails
+	 * @throws
+	 */
+	public function update()
+	{
+		if( !$this->validate() )
+		{
+			return null;
+		}
+		
+		$auth = Yii::$app->authManager;
+		$authRole = $auth->createRole( $this->name );
+		$authRole->description = $this->description;
+		
+		$auth->update( $this->name_original, $authRole );
 		
 		$auth->add( $authRole );
 		return true;

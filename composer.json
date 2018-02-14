@@ -21,7 +21,10 @@
         "kartik-v/yii2-social": "dev-master",
         "fortawesome/font-awesome": "*",
         "yiisoft/yii2-jui": "^2.0",
-        "kartik-v/yii2-grid": "@dev"
+        "kartik-v/yii2-grid": "@dev",
+        "kartik-v/yii2-mpdf": "^1.0",
+        "2amigos/yii2-arrayquery-component": "^1.0",
+        "yii2mod/yii2-rbac": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
