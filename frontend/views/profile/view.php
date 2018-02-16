@@ -16,19 +16,26 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        
-        <?php if( PermissionHelpers::userMustBeOwner( 'profile', $model->id ) )
+	
+		<?php if( Yii::$app->user->can('updateUserProfile', [ 'profile'=>$model ] ) )
 		{ ?>
-			<?= Html::a( 'Update', [ 'update', 'id' => $model->id ], [ 'class' => 'btn btn-primary' ] ) ?>
-        <?php
+			<?= Html::a('Update', [ 'update', 'id' => $model->id ], [ 'class' => 'btn btn-primary' ] ) ?>
+			<?= Html::a('Delete', [ 'delete', 'id' => $model->id ], [
+			'class' => 'btn btn-danger',
+			'data' => [
+				'confirm' => 'Are you sure you want to delete this item?',
+				'method' => 'post',
+			],
+		]) ?>
+			<?php
 		} ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
+        <?php
+		//if( PermissionHelpers::userMustBeOwner( 'profile', $model->id ) )
+		//{ ?>
+			<?php //echo  Html::a( 'Update', [ 'update', 'id' => $model->id ], [ 'class' => 'btn btn-primary' ] ) ?>
+			<?php
+		//} ?>
+    
     </p>
 
     <?= DetailView::widget([

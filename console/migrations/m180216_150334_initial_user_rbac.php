@@ -154,7 +154,8 @@ class m180216_150334_initial_user_rbac extends Migration
 		$auth->addChild( $superUser, $userProfileAdminRole );
 		$auth->addChild( $superUser, $userRole );
 		$auth->addChild( $superUser, $roleAdminRole );
-		
+	
+		$auth->assign( $superUser, 1 );
     }
 
     /**

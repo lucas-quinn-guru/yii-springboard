@@ -69,7 +69,7 @@ $is_admin = PermissionHelpers::requireMinimumRole('Admin');
 				</p>
 				<p>
 					<?php
-					if (!Yii::$app->user->isGuest && $is_admin)
+					if (!Yii::$app->user->isGuest && Yii::$app->user->can( 'ProfileAdmin' ) )
 					{
 						echo Html::a('Manage Profiles', ['profile/index'], ['class' => 'btn btn-default']);
 					}
@@ -87,7 +87,7 @@ $is_admin = PermissionHelpers::requireMinimumRole('Admin');
 				</p>
 				<p>
 					<?php
-					if (!Yii::$app->user->isGuest && $is_admin)
+					if (!Yii::$app->user->isGuest && Yii::$app->user->can( 'SuperUser' ) )
 					{
 						echo Html::a('Manage User Types', ['user-type/index'], ['class' => 'btn btn-default']);
 					}
@@ -103,7 +103,7 @@ $is_admin = PermissionHelpers::requireMinimumRole('Admin');
 				</p>
 				<p>
 					<?php
-					if (!Yii::$app->user->isGuest && $is_admin)
+					if (!Yii::$app->user->isGuest && Yii::$app->user->can( 'SuperUser' ) )
 					{
 						echo Html::a('Manage Statuses', ['status/index'], ['class' => 'btn btn-default']);
 					}
@@ -119,7 +119,7 @@ $is_admin = PermissionHelpers::requireMinimumRole('Admin');
 				</p>
 				<p>
 					<?php
-					if (!Yii::$app->user->isGuest && $is_admin)
+					if (!Yii::$app->user->isGuest && Yii::$app->user->can( 'SuperUser' ) )
 					{
 						echo Html::a('Manage Profiles', ['profile/index'], ['class' => 'btn btn-default']);
 					}
