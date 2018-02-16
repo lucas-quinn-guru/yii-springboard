@@ -39,7 +39,7 @@ $is_admin = PermissionHelpers::requireMinimumRole('Admin');
 				</p>
 				<p>
 					<?php
-					if (!Yii::$app->user->isGuest && $is_admin)
+					if (!Yii::$app->user->isGuest && Yii::$app->user->can( 'UserAdmin' ) )
 					{
 						echo Html::a('Manage Users', ['user/index'], ['class' => 'btn btn-default']);
 					}
@@ -54,7 +54,7 @@ $is_admin = PermissionHelpers::requireMinimumRole('Admin');
 				</p>
 				<p>
 					<?php
-					if (!Yii::$app->user->isGuest && $is_admin)
+					if (!Yii::$app->user->isGuest && Yii::$app->user->can( 'RoleAdmin' ) )
 					{
 						echo Html::a('Manage Roles', ['role/index'], ['class' => 'btn btn-default']);
 					}

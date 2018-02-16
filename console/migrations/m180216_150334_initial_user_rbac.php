@@ -17,6 +17,34 @@ class m180216_150334_initial_user_rbac extends Migration
 		// add the rule
 		$profileOwnerRule = new \common\rbac\ProfileOwnerRule;
 		$auth->add( $profileOwnerRule );
+	
+		/*
+		 * Role Permissions
+		 */
+		// add "createRole" permission
+		$createRole = $auth->createPermission('createRole');
+		$createRole->description = 'Permission to create roles';
+		$auth->add( $createRole );
+	
+		// add "readRole" permission
+		$readRole = $auth->createPermission('readRole');
+		$readRole->description = 'Permission to read a role';
+		$auth->add( $readRole );
+	
+		// add "updateRole" permission
+		$updateRole = $auth->createPermission('updateRole');
+		$updateRole->description = 'Permission to update a Role';
+		$auth->add( $updateRole );
+	
+		// add "deleteRole" permission
+		$deleteRole = $auth->createPermission('deleteRole');
+		$deleteRole->description = 'Permission to delete a Role';
+		$auth->add( $deleteRole );
+	
+		// add "listRoles" permission
+		$listRoles = $auth->createPermission('listRoles');
+		$listRoles->description = 'Permission to list Roles';
+		$auth->add( $listRoles );
 		
 		/*
 		 * User Permissions
@@ -90,6 +118,15 @@ class m180216_150334_initial_user_rbac extends Migration
 		// allow "userRole" to update their own profile
 		$auth->addChild( $userRole, $updateOwnProfile );
 		
+		$roleAdminRole = $auth->createRole( "RoleAdmin" );
+		$roleAdminRole->description = "Role Administrator Role";
+		$auth->add( $roleAdminRole );
+		$auth->addChild( $roleAdminRole, $createRole );
+		$auth->addChild( $roleAdminRole, $readRole );
+		$auth->addChild( $roleAdminRole, $updateRole );
+		$auth->addChild( $roleAdminRole, $deleteRole );
+		$auth->addChild( $roleAdminRole, $listRoles );
+		
 		$userAdminRole = $auth->createRole( "UserAdmin" );
 		$userAdminRole->description = "User Administrator Role";
 		$auth->add( $userAdminRole );
@@ -116,6 +153,7 @@ class m180216_150334_initial_user_rbac extends Migration
 		$auth->addChild( $superUser, $userAdminRole );
 		$auth->addChild( $superUser, $userProfileAdminRole );
 		$auth->addChild( $superUser, $userRole );
+		$auth->addChild( $superUser, $roleAdminRole );
 		
     }
 
