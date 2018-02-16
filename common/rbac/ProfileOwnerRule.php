@@ -8,9 +8,9 @@ use common\models\Profile;
 /**
 * Checks if authorID matches user passed via params
 */
-class ProfileRule extends Rule
+class ProfileOwnerRule extends Rule
 {
-	public $name = 'isOwner';
+	public $name = 'isProfileOwner';
 
 	/**
 	* @param string|int $user the user ID.
