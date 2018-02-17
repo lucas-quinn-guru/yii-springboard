@@ -31,7 +31,7 @@ class SiteController extends Controller
 						'allow' => true,
 						'roles' => ['@'],
 						'matchCallback' => function ($rule, $action) {
-							return PermissionHelpers::requireMinimumRole('Admin')
+							return Yii::$app->user->can('SuperUser')
 								&& PermissionHelpers::requireStatus('Active');
 						}
 					],
@@ -77,6 +77,8 @@ class SiteController extends Controller
     /**
      * Login action.
      *
+	 * @throws
+	 *
      * @return string
      */
     public function actionLogin()
