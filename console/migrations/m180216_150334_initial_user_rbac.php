@@ -144,6 +144,10 @@ class m180216_150334_initial_user_rbac extends Migration
 		$auth->addChild( $userProfileAdminRole, $updateUserProfile );
 		$auth->addChild( $userProfileAdminRole, $deleteUserProfile );
 		$auth->addChild( $userProfileAdminRole, $listUserProfiles );
+		
+		$adminRole = $auth->createRole( "Admin" );
+		$adminRole->description = "Almost Super User";
+		$auth->add( $adminRole );
 	
 		// add "SuperAdmin" role and give this role the "updatePost" permission
 		// as well as the permissions of the "author" role
@@ -154,6 +158,7 @@ class m180216_150334_initial_user_rbac extends Migration
 		$auth->addChild( $superUser, $userProfileAdminRole );
 		$auth->addChild( $superUser, $userRole );
 		$auth->addChild( $superUser, $roleAdminRole );
+		$auth->addChild( $superUser, $adminRole );
 	
 		$auth->assign( $superUser, 1 );
     }

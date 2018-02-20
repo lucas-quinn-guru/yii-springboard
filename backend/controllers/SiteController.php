@@ -31,7 +31,7 @@ class SiteController extends Controller
 						'allow' => true,
 						'roles' => ['@'],
 						'matchCallback' => function ($rule, $action) {
-							return Yii::$app->user->can('SuperUser')
+							return Yii::$app->user->can('Admin')
 								&& PermissionHelpers::requireStatus('Active');
 						}
 					],

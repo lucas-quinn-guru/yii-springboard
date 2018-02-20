@@ -11,7 +11,7 @@ class AccountController extends \yii\web\Controller
 		return [
 			'access' => [
 				'class' => AccessControl::className(),
-				'only' => ['index', 'update'],
+				'only' => [ 'index', 'update' ],
 				'rules' => [
 					//[
 					//	'allow' => true,
@@ -20,8 +20,8 @@ class AccountController extends \yii\web\Controller
 					//],
 					[
 						'allow' => true,
-						'actions' => ['index', 'update'],
-						'roles' => ['@'],
+						'actions' => [ 'index', 'update' ],
+						'roles' => [ 'SuperUser' ],
 					],
 				],
 			],

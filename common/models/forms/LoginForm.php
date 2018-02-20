@@ -74,7 +74,7 @@ class LoginForm extends Model
     {
 	    $auth = Yii::$app->getAuthManager();
 
-	    if( ( $this->validate() ) &&  $auth->checkAccess( $this->getUser()->id, "SuperUser" ) )
+	    if( ( $this->validate() ) &&  $auth->checkAccess( $this->getUser()->id, "Admin" ) )
 	    {
 		    return Yii::$app->user->login( $this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0 );
 	    } else
