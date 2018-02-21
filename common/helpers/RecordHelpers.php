@@ -3,6 +3,7 @@
 namespace common\helpers;
 
 use Yii;
+use common\models\StatusMessage;
 
 class RecordHelpers
 {
@@ -26,5 +27,16 @@ class RecordHelpers
 		{
 			return $result[ 'id' ];
 		}
+	}
+
+	public static function findStatusMessage( $action_name, $controller_name )
+	{
+		$result =  StatusMessage::find()
+			->select('id')
+			->where( [ 'action_name' => $action_name ] )
+			->andWhere( [ 'controller_name' => $controller_name ] )
+			->one();
+
+		return isset( $result[ 'id' ] ) ? $result[ 'id' ] : false;
 	}
 }

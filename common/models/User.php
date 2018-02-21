@@ -47,7 +47,6 @@ class User extends ActiveRecord implements IdentityInterface
 	/**
 	 * behaviors
 	 */
-	
 	public function behaviors()
 	{
 		return [
