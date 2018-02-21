@@ -42,16 +42,21 @@ FontAwesomeAsset::register($this);
         ['label' => 'About', 'url' => ['/site/about']],
         ['label' => 'Contact', 'url' => ['/site/contact']],
     ];
-    if (Yii::$app->user->isGuest) {
+    if (Yii::$app->user->isGuest)
+    {
         $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
-    } else {
+    } else
+	{
 		$menuItems[] = [
 		        'label' => 'My Account (' . Yii::$app->user->identity->username . ')',
                 'items' => [
                     [ 'label' => 'Dashboard', 'url' => [ '/account/index' ] ],
 				    [ 'label' => 'Profile', 'url' => [ '/profile/view' ] ],
-					[ 'label' => 'Backend', 'url' => 'http://mbarrusbackend.marcellusrocks.com' ],
+					[ 'label' => 'Backend',
+						'url' => 'http://mbarrusbackend.marcellusrocks.com',
+						'linkOptions' => [ 'target' => '_blank' ]
+					],
                     [ 'label'=>'Log Out', 'url' => [ '/site/logout' ], 'linkOptions' => [ 'data-method' => 'post' ] ]
                 ]
         ];
