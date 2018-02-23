@@ -9,7 +9,7 @@ use common\helpers\PermissionHelpers;
 
 $this->title = $model->user->username;
 
-$show_this_nav = PermissionHelpers::requireMinimumRole('SuperUser' );
+$show_this_nav = Yii::$app->user->can('SuperUser' );
 
 $this->params[ 'breadcrumbs' ][] = [ 'label' => 'Profiles', 'url' => [ 'index' ] ];
 $this->params[ 'breadcrumbs' ][] = $this->title;

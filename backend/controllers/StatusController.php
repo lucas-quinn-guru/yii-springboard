@@ -31,7 +31,7 @@ class StatusController extends Controller
 						'allow' => true,
 						'roles' => ['@'],
 						'matchCallback' => function ($rule, $action) {
-							return PermissionHelpers::requireMinimumRole('Admin')
+							return Yii::$app->user->can('Admin')
 								&& PermissionHelpers::requireStatus('Active');
 						}
 					],
@@ -40,7 +40,7 @@ class StatusController extends Controller
 						'allow' => true,
 						'roles' => ['@'],
 						'matchCallback' => function ($rule, $action) {
-							return PermissionHelpers::requireMinimumRole('SuperUser')
+							return Yii::$app->user->can('SuperUser')
 								&& PermissionHelpers::requireStatus('Active');
 						}
 					],

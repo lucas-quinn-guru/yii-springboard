@@ -35,7 +35,7 @@ FontAwesomeAsset::register( $this );
     $is_admin = false;
 
     if (!Yii::$app->user->isGuest) {
-	    $is_admin = PermissionHelpers::requireMinimumRole( "Admin" );
+	    $is_admin = PermissionHelpers::requireRole( "Admin" );
 
 
 	    NavBar::begin( [

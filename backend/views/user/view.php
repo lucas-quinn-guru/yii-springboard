@@ -14,7 +14,7 @@ RbacAsset::register( $this );
 
 $this->title = $model->username;
 
-$show_this_nav = PermissionHelpers::requireMinimumRole( 'SuperUser' );
+$show_this_nav = Yii::$app->user->can( 'SuperUser' );
 
 $this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;

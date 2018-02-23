@@ -9,7 +9,7 @@ use common\helpers\PermissionHelpers;
 
 $this->title = 'Admin Yii 2 Build';
 
-$is_admin = PermissionHelpers::requireMinimumRole('Admin');
+$is_admin = PermissionHelpers::requireRole('Admin' );
 
 ?>
 

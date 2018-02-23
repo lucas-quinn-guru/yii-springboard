@@ -20,7 +20,6 @@ class UserSearch extends User
 	 *
 	 * @var mixed
 	 */
-	public $roleName;
 	public $userTypeName;
 	public $user_type_name;
 	public $user_type_id;
@@ -34,7 +33,7 @@ class UserSearch extends User
 	{
 		return [
 			
-			[ [ 'id', 'role_id', 'status_id', 'user_type_id' ], 'integer' ],
+			[ [ 'id', 'status_id', 'user_type_id' ], 'integer' ],
 			[ [ 'username', 'email', 'created_at', 'updated_at', 'roleName',
 				'statusName','userTypeName', 'profileId',
 				'user_type_name'], 'safe' ],
@@ -87,11 +86,6 @@ class UserSearch extends User
 					'desc' => ['profile.id' => SORT_DESC],
 					'label' => 'Profile'
 				],
-				'roleName' => [
-					'asc' => ['role.role_name' => SORT_ASC],
-					'desc' => ['role.role_name' => SORT_DESC],
-					'label' => 'Role'
-				],
 				'statusName' => [
 					'asc' => ['status.status_name' => SORT_ASC],
 					'desc' => ['status.status_name' => SORT_DESC],
@@ -117,8 +111,7 @@ class UserSearch extends User
 		
 		if( !( $this->load( $params ) && $this->validate() ) )
 		{
-			$query->joinWith( [ 'role' ] )
-				->joinWith( [ 'status'] )
+			$query->joinWith( [ 'status'] )
 				->joinWith( [ 'profile' ] )
 				->joinWith( [ 'userType' ] );
 			
@@ -128,17 +121,10 @@ class UserSearch extends User
 		$this->addSearchParameter( $query, 'id' );
 		$this->addSearchParameter( $query, 'username', true );
 		$this->addSearchParameter( $query, 'email', true );
-		$this->addSearchParameter( $query, 'role_id' );
 		$this->addSearchParameter( $query, 'status_id' );
 		$this->addSearchParameter( $query, 'user_type_id' );
 		$this->addSearchParameter( $query, 'created_at' );
 		$this->addSearchParameter( $query, 'updated_at' );
-		
-		// filter by role
-		$query->joinWith( [ 'role' => function ( $q )
-		{
-			$q->andFilterWhere( [ '=', 'role.role_name', $this->roleName ] );
-		}]);
 			
 		// filter by status
 		$query->joinWith( [ 'status' => function ( $q )

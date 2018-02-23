@@ -9,46 +9,18 @@ use common\models\User;
 
 class ValueHelpers
 {
-	
 	public static function roleMatch( $role_name )
 	{
-		$userHasRoleName = Yii::$app->user->identity->role->role_name;
-		
-		return $userHasRoleName == $role_name ? true : false;
+		return Yii::$app->user->can( $role_name ) ? true : false;
 	}
 	
-	public static function getUsersRoleValue( $userId = null )
-	{
-		if( $userId == null )
-		{
-			$usersRoleValue = Yii::$app->user->identity->role->role_value;
-			return isset($usersRoleValue) ? $usersRoleValue : false;
-		} else
-		{
-			$user = User::findOne( $userId );
-			
-			$usersRoleValue = $user->role->role_value;
-			
-			return isset($usersRoleValue) ? $usersRoleValue : false;
-		}
-	}
-	
-	public static function getRoleValue( $role_name )
-	{
-		$role = Role::find( 'role_value' )
-					->where( [ 'role_name' => $role_name ] )
-					->one();
-		
-		return isset($role->role_value) ? $role->role_value : false;
-	}
 	
 	public static function isRoleNameValid( $role_name )
 	{
-		$role = Role::find( 'role_name' )
-					->where( [ 'role_name' => $role_name ] )
-					->one();
+		$auth = Yii::$app->authManager;
+		$role = $auth->getRole( $role_name );
 		
-		return isset( $role->role_name ) ? true : false;
+		return $role != null ? true : false;
 	}
 	
 	public static function statusMatch($status_name)

@@ -26,28 +26,6 @@ class PermissionHelpers
 		return ValueHelpers::roleMatch( $role_name );
 	}
 	
-	public static function requireMinimumRole( $role_name, $userId=null )
-	{
-		
-		if( ValueHelpers::isRoleNameValid( $role_name ) )
-		{
-			
-			if( $userId == null )
-			{
-				$userRoleValue = ValueHelpers::getUsersRoleValue();
-			}  else
-			{
-				$userRoleValue = ValueHelpers::getUsersRoleValue($userId);
-			}
-			
-			return $userRoleValue >= ValueHelpers::getRoleValue($role_name) ? true : false;
-			
-		} else
-		{
-			return false;
-		}
-	}
-	
 	public static function userMustBeOwner( $model_name, $model_id )
 	{
 		$connection = \Yii::$app->db;

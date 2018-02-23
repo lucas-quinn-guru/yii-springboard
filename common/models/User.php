@@ -7,7 +7,6 @@ use yii\db\ActiveRecord;
 use yii\db\Expression;
 use yii\web\IdentityInterface;
 use yii\helpers\Security;
-use common\models\Role;
 use common\models\Status;
 use common\models\UserType;
 use common\models\Profile;
@@ -25,7 +24,6 @@ use yii\helpers\Html;
  * @property string $password_reset_token
  * @property string $email
  * @property string $auth_key
- * @property integer $role_id
  * @property integer $status_id
  * @proprty integer $user_type_id
  * @property integer $created_at
@@ -73,9 +71,6 @@ class User extends ActiveRecord implements IdentityInterface
 			['status_id', 'default', 'value' => ValueHelpers::getStatusId( 'Active' ) ],
 			[['status_id'],'in', 'range'=>array_keys($this->getStatusList())],
 			
-			['role_id', 'default', 'value' => 1],
-			[['role_id'],'in', 'range'=>array_keys($this->getRoleList())],
-			
 			['user_type_id', 'default', 'value' => 1],
 			[['user_type_id'],'in', 'range'=>array_keys($this->getUserTypeList())],
 			
@@ -99,7 +94,6 @@ class User extends ActiveRecord implements IdentityInterface
 		return [
 			/* Your other attribute labels */
 			
-			'roleName' => Yii::t('app', 'Role'),
 			'statusName' => Yii::t('app', 'Status'),
 			'profileId' => Yii::t('app', 'Profile'),
 			'profileLink' => Yii::t('app', 'Profile'),
@@ -116,7 +110,6 @@ class User extends ActiveRecord implements IdentityInterface
 	/**
 	 * @findIdentity
 	 */
-	
 	public static function findIdentity($id)
 	{
 		return static::findOne( [ 'id' => $id, 'status_id'=>ValueHelpers::getStatusId( 'Active' ) ] );
@@ -232,9 +225,10 @@ class User extends ActiveRecord implements IdentityInterface
 	/**
 	 * Generates password hash from password and sets it to the model
 	 *
+	 * @throws
+	 *
 	 * @param string $password
 	 */
-	
 	public function setPassword($password)
 	{
 		$this->password_hash = Yii::$app->security->generatePasswordHash($password);
@@ -242,8 +236,9 @@ class User extends ActiveRecord implements IdentityInterface
 	
 	/**
 	 * Generates "remember me" authentication key
+	 *
+	 * @throws
 	 */
-	
 	public function generateAuthKey()
 	{
 		$this->auth_key = Yii::$app->security->generateRandomString();
@@ -252,9 +247,10 @@ class User extends ActiveRecord implements IdentityInterface
 	/**
 	 * Generates new password reset token
 	 * broken into 2 lines to avoid wordwrapping
+	 *
+	 * @throws
+	 *
 	 */
-	
-	
 	public function generatePasswordResetToken()
 	{
 		$this->password_reset_token = Yii::$app->security->generateRandomString()  . '_' . time();
@@ -263,47 +259,15 @@ class User extends ActiveRecord implements IdentityInterface
 	/**
 	 * Removes password reset token
 	 */
-	
 	public function removePasswordResetToken()
 	{
 		$this->password_reset_token = null;
 	}
 	
 	/**
-	 * get role relationship
-	 *
-	 */
-	
-	public function getRole()
-	{
-		return $this->hasOne(Role::className(), ['id' => 'role_id']);
-	}
-	
-	/**
-	 * get role name
-	 *
-	 */
-	
-	public function getRoleName()
-	{
-		return $this->role ? $this->role->role_name : '- no role -';
-	}
-	
-	/**
-	 * get list of roles for dropdown
-	 */
-	
-	public static function getRoleList()
-	{
-		$droptions = Role::find()->asArray()->all();
-		return ArrayHelper::map($droptions, 'id', 'role_name');
-	}
-	
-	/**
 	 * get status relation
 	 *
 	 */
-	
 	public function getStatus()
 	{
 		return $this->hasOne(Status::className(), ['id' => 'status_id']);
@@ -313,7 +277,6 @@ class User extends ActiveRecord implements IdentityInterface
 	 * * get status name
 	 *
 	 */
-	
 	public function getStatusName()
 	{
 		return $this->status ? $this->status->status_name : '- no status -';
@@ -329,11 +292,11 @@ class User extends ActiveRecord implements IdentityInterface
 	}
 	
 	/**
-	 *getUserType
-	 *line break to avoid word wrap in PDF
+	 * getUserType
+	 *
+	 * line break to avoid word wrap in PDF
 	 * code as single line in your IDE
 	 */
-	
 	public function getUserType()
 	{
 		return $this->hasOne(UserType::className(), ['id' => 'user_type_id']);
@@ -341,9 +304,7 @@ class User extends ActiveRecord implements IdentityInterface
 	
 	/**
 	 * get user type name
-	 *
 	 */
-	
 	public function getUserTypeName()
 	{
 		return $this->userType ? $this->userType->user_type_name : '- no user type -';
@@ -352,7 +313,6 @@ class User extends ActiveRecord implements IdentityInterface
 	/**
 	 * get list of user types for dropdown
 	 */
-	
 	public static function getUserTypeList()
 	{
 		$droptions = UserType::find()->asArray()->all();
@@ -361,9 +321,7 @@ class User extends ActiveRecord implements IdentityInterface
 	
 	/**
 	 * get user type id
-	 *
 	 */
-	
 	public function getUserTypeId()
 	{
 		return $this->userType ? $this->userType->id : 'none';
@@ -371,9 +329,7 @@ class User extends ActiveRecord implements IdentityInterface
 	
 	/**
 	 * @getProfile
-	 *
 	 */
-	
 	public function getProfile()
 	{
 		return $this->hasOne(Profile::className(), ['user_id' => 'id']);
@@ -381,9 +337,7 @@ class User extends ActiveRecord implements IdentityInterface
 	
 	/**
 	 * @getProfileId
-	 *
 	 */
-	
 	public function getProfileId()
 	{
 		return $this->profile ? $this->profile->id : 'none';
@@ -391,9 +345,7 @@ class User extends ActiveRecord implements IdentityInterface
 	
 	/**
 	 * @getProfileLink
-	 *
 	 */
-	
 	public function getProfileLink()
 	{
 		$url = Url::to(['profile/view', 'id'=>$this->profileId]);
@@ -403,9 +355,7 @@ class User extends ActiveRecord implements IdentityInterface
 	
 	/**
 	 * get user id Link
-	 *
 	 */
-	
 	public function getUserIdLink()
 	{
 		$url = Url::to(['user/update', 'id'=>$this->id]);
@@ -415,9 +365,7 @@ class User extends ActiveRecord implements IdentityInterface
 	
 	/**
 	 * @getUserLink
-	 *
 	 */
-	
 	public function getUserLink()
 	{
 		$url = Url::to( [ 'user/view', 'id'=>$this->id ] );

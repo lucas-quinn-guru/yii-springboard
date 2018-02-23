@@ -21,9 +21,7 @@ use common\models\User;
 	<?= $form->field($model, 'username') ?>
 	
 	<?php echo $form->field($model, 'email') ?>
-	
-	<?= $form->field($model, 'role_id')->dropDownList( User::getroleList(), [ 'prompt' => 'Please Choose One' ] );?>
-	
+ 
 	<?= $form->field($model, 'user_type_id')->dropDownList( User::getuserTypeList(), [ 'prompt' => 'Please Choose One' ] );?>
 	
 	<?= $form->field($model, 'status_id')->dropDownList( $model->statusList, [ 'prompt' => 'Please Choose One' ] );?>
