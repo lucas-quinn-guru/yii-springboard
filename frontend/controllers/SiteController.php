@@ -7,6 +7,7 @@ use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use common\helpers\MailCall;
 use common\models\Forms\LoginForm;
 use frontend\models\forms\PasswordResetRequestForm;
 use frontend\models\forms\ResetPasswordForm;
@@ -162,7 +163,9 @@ class SiteController extends Controller
             {
                 if( Yii::$app->getUser()->login( $user ) )
                 {
-                    return $this->goHome();
+	                MailCall::onMailableAction( 'signup', 'site' );
+
+	                return $this->goHome();
                 }
             }
         }

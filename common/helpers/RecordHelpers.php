@@ -33,8 +33,8 @@ class RecordHelpers
 	{
 		$result =  StatusMessage::find()
 			->select([ 'id' ] )
-			->where( [ 'action_name' => $action_name ] )
-			->andWhere( [ 'controller_name' => $controller_name ] )
+			->where( [ 'action' => $action_name ] )
+			->andWhere( [ 'controller' => $controller_name ] )
 			->one();
 
 		return isset( $result[ 'id' ] ) ? $result[ 'id' ] : false;
