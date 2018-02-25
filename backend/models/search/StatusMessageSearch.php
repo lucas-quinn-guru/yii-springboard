@@ -19,7 +19,7 @@ class StatusMessageSearch extends StatusMessage
     {
         return [
             [['id'], 'integer'],
-            [['controller', 'action', 'name', 'subject', 'body', 'description', 'create_at', 'updated_at'], 'safe'],
+            [['controller', 'action', 'name', 'subject', 'body', 'description', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 
@@ -60,7 +60,7 @@ class StatusMessageSearch extends StatusMessage
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'create_at' => $this->create_at,
+            'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);
 

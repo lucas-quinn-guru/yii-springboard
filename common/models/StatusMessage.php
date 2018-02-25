@@ -16,7 +16,7 @@ use yii\db\Expression;
  * @property string $subject
  * @property string $body
  * @property string $description Status Message Description
- * @property string $create_at
+ * @property string $created_at
  * @property string $updated_at
  */
 class StatusMessage extends \yii\db\ActiveRecord
@@ -53,7 +53,7 @@ class StatusMessage extends \yii\db\ActiveRecord
     {
         return [
             [['controller', 'action', 'name', 'subject', 'body', 'description'], 'required'],
-            [['create_at', 'updated_at'], 'safe'],
+            [['created_at', 'updated_at'], 'safe'],
             [['controller', 'action', 'name'], 'string', 'max' => 105],
             [['subject', 'description'], 'string', 'max' => 255],
             [['body'], 'string', 'max' => 2025],
@@ -73,7 +73,7 @@ class StatusMessage extends \yii\db\ActiveRecord
             'subject' => 'Subject',
             'body' => 'Body',
             'description' => 'Description',
-            'create_at' => 'Create At',
+            'created_at' => 'Create At',
             'updated_at' => 'Updated At',
         ];
     }

@@ -63,15 +63,34 @@ FontAwesomeAsset::register( $this );
     if( !Yii::$app->user->isGuest && $is_admin )
     {
     	$menuItems[] = [
-			'label' => 'User Administration',
+			'label' => 'User Admin',
 			'items' => [
 				[ 'label' => 'Users', 'url' => [ 'user/index' ] ],
 				[ 'label' => 'Profiles', 'url' => [ 'profile/index' ] ],
 				[ 'label' => 'Roles', 'url' => [ 'role/index' ] ],
 				[ 'label' => 'User Types', 'url' => [ 'user-type/index' ] ],
 				[ 'label' => 'Statuses', 'url' => [ 'status/index' ] ]
+
 			]
 		];
+
+	    $menuItems[] = [
+		    'label' => "RBAC Admin",
+		    'items' => [
+			    ['label' => 'Roles', 'url' => ['/role/index']],
+			    ['label' => 'User Types', 'url' => ['/user-type/index']],
+		    ]
+	    ];
+
+    	$menuItems[] = [
+            'label' => "Site Admin",
+            'items' => [
+	            [ 'label' => 'Support Requests', 'url' => ['/content/index' ] ],
+	            [ 'label' => 'Status Messages', 'url' => [ '/status-message/index' ] ],
+	            [ 'label' => 'FAQ', 'url' => [ '/faq/index' ] ],
+	            [ 'label' => 'FAQ Category', 'url' => [ '/faq-category/index' ] ],
+            ]
+        ];
     }
 
 
@@ -84,7 +103,7 @@ FontAwesomeAsset::register( $this );
 			'label' => 'My Account (' . Yii::$app->user->identity->username . ')',
 			'items' => [
 				[ 'label'=>'Frontend', 'url'=>"http://mbarrus.marcellusrocks.com" ],
-				[
+                [
 					'label' => 'Logout',
 					'url' => ['/site/logout'],
 					'linkOptions' => ['data-method' => 'post']

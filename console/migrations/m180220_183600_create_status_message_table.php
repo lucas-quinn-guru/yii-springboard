@@ -20,7 +20,7 @@ class m180220_183600_create_status_message_table extends Migration
 			'subject' => $this->string( 255 )->notNull(),
 			'body' => $this->string( 2025 )->notNull(),
 			'description' => $this->string( 255 )->notNull()->comment( "Status Message Description"),
-			'create_at' => $this->dateTime(),
+			'created_at' => $this->dateTime(),
 			'updated_at' => $this->dateTime()
         ]);
     }

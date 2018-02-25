@@ -27,24 +27,23 @@ class StatusMessageController extends Controller
 		        'class' => AccessControl::className(),
 		        'rules' => [
 			        [
-				        'actions' => ['login', 'view', 'create', 'error'],
+				        'actions' => [ 'index', 'create', 'update', 'view' ],
 				        'allow' => true,
+				        'roles' => ['@'],
+				        'matchCallback' => function ($rule, $action) {
+					        return Yii::$app->user->can('Admin')
+						        && PermissionHelpers::requireStatus('Active');
+				        }
 			        ],
 			        [
-				        'actions' => ['index', 'view', 'create' ],
+				        'actions' => [ 'delete' ],
 				        'allow' => true,
 				        'roles' => ['@'],
 				        'matchCallback' => function ($rule, $action) {
 					        return Yii::$app->user->can('SuperUser')
 						        && PermissionHelpers::requireStatus('Active');
 				        }
-			        ],
-			        [
-				        'actions' => ['logout'],
-				        'allow' => true,
-				        'roles' => ['@'],
-
-			        ],
+			        ]
 		        ],
 	        ],
         	'verbs' => [
