@@ -135,7 +135,7 @@ class Profile extends \yii\db\ActiveRecord
 	 */
 	public function getUsername()
 	{
-		return $this->user->username;
+		return $this->user ? $this->user->username : 'none';
 	}
 	
 	/**

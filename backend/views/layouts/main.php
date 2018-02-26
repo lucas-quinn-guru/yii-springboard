@@ -86,7 +86,7 @@ FontAwesomeAsset::register( $this );
 				[ 'label' => 'Support Requests', 'url' => [ '/content/index' ] ],
 				[ 'label' => 'Status Messages', 'url' => [ '/status-message/index' ] ],
 				[ 'label' => 'FAQ', 'url' => [ '/faq/index' ] ],
-				[ 'label' => 'FAQ Category', 'url' => [ '/faq-category/index' ] ],
+				[ 'label' => 'FAQ Categories', 'url' => [ '/faq-category/index' ] ],
 			],
         ];
 
@@ -96,7 +96,7 @@ FontAwesomeAsset::register( $this );
 				[ 'label' => 'Content', 'url' => [ 'content/index' ] ],
 	            [ 'label' => 'Status Messages', 'url' => [ '/status-message/index' ] ],
 	            [ 'label' => 'FAQ', 'url' => [ '/faq/index' ] ],
-	            [ 'label' => 'FAQ Category', 'url' => [ '/faq-category/index' ] ],
+	            [ 'label' => 'FAQ Categories', 'url' => [ '/faq-category/index' ] ],
             ]
         ];
     }
