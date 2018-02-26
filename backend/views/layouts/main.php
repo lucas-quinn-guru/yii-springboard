@@ -63,29 +63,37 @@ FontAwesomeAsset::register( $this );
     if( !Yii::$app->user->isGuest && $is_admin )
     {
     	$menuItems[] = [
-			'label' => 'User Admin',
+			'label' => 'Users',
 			'items' => [
 				[ 'label' => 'Users', 'url' => [ 'user/index' ] ],
 				[ 'label' => 'Profiles', 'url' => [ 'profile/index' ] ],
+                [ 'label' => "Role and Permission Assignments", 'url'=>[ 'assignment/index' ] ],
+            ]
+        ];
+		$menuItems[] = [
+			'label' => 'RBAC',
+			'items' => [
 				[ 'label' => 'Roles', 'url' => [ 'role/index' ] ],
+                [ 'label' => 'Permissions', 'url' => [ 'permission/index' ] ],
 				[ 'label' => 'User Types', 'url' => [ 'user-type/index' ] ],
 				[ 'label' => 'Statuses', 'url' => [ 'status/index' ] ]
-
+    
 			]
 		];
-
-	    $menuItems[] = [
-		    'label' => "RBAC Admin",
-		    'items' => [
-			    ['label' => 'Roles', 'url' => ['/role/index']],
-			    ['label' => 'User Types', 'url' => ['/user-type/index']],
-		    ]
-	    ];
+		$menuItems[] = [
+            'label' => 'Support',
+            'items' => [
+				[ 'label' => 'Support Requests', 'url' => [ '/content/index' ] ],
+				[ 'label' => 'Status Messages', 'url' => [ '/status-message/index' ] ],
+				[ 'label' => 'FAQ', 'url' => [ '/faq/index' ] ],
+				[ 'label' => 'FAQ Category', 'url' => [ '/faq-category/index' ] ],
+			],
+        ];
 
     	$menuItems[] = [
-            'label' => "Site Admin",
+            'label' => "Content",
             'items' => [
-	            [ 'label' => 'Support Requests', 'url' => ['/content/index' ] ],
+				[ 'label' => 'Content', 'url' => [ 'content/index' ] ],
 	            [ 'label' => 'Status Messages', 'url' => [ '/status-message/index' ] ],
 	            [ 'label' => 'FAQ', 'url' => [ '/faq/index' ] ],
 	            [ 'label' => 'FAQ Category', 'url' => [ '/faq-category/index' ] ],
