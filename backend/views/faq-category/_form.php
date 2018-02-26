@@ -12,10 +12,9 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field( $model, 'name' )->textInput( [ 'maxlength' => true ] ) ?>
+    <?= $form->field( $model, 'name' )->textInput( [ 'maxlength' => 45 ] ) ?>
 
     <?= $form->field( $model, 'weight' )->textInput() ?>
-
     
 	<?= $form->field( $model, 'is_featured' )-> dropDownList( $model->faqCategoryIsFeaturedList,
 		[ 'prompt' => 'Please Choose One' ] ) ?>

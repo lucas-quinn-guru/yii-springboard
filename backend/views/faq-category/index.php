@@ -13,8 +13,18 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="faq-category-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+	<?php echo Collapse::widget([
+        'items' => [
+            // equivalent to the above
+            [
+                'label' => 'Search',
+                'content' => $this->render('_search',
+                    ['model' => $searchModel ]
+                ) ,
+            ],
+        ]
+    ]);
+	?>
     <p>
         <?= Html::a('Create Faq Category', ['create'], ['class' => 'btn btn-success']) ?>
     </p>

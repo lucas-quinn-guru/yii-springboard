@@ -30,7 +30,7 @@ class FaqCategory extends \yii\db\ActiveRecord
 		return [
 			[ [ 'name' ], 'required' ],
 			[ [ 'name' ], 'string', 'max' => 45 ],
-			[ [ 'weight', 'faq_category_is_featured' ], 'integer' ],
+			[ [ 'weight', 'is_featured' ], 'integer' ],
 			[ 'weight', 'default', 'value' => 100 ],
 			[ [ 'weight' ], 'in', 'range'=>range(1,100 ) ]
 		];

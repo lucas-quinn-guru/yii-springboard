@@ -15,17 +15,18 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'id') ?>
+    <?= $form->field( $model, 'id' ) ?>
 
-    <?= $form->field($model, 'name') ?>
+    <?= $form->field( $model, 'name' ) ?>
 
-    <?= $form->field($model, 'weight') ?>
+    <?= $form->field( $model, 'weight' ) ?>
 
-    <?= $form->field($model, 'is_featured') ?>
+	<?= $form->field( $model, 'is_featured' )-> dropDownList( $model->faqCategoryIsFeaturedList,
+		[ 'prompt' => 'Please Choose One' ] ) ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
+        <?= Html::submitButton('Search', [ 'class' => 'btn btn-primary' ] ) ?>
+        <?= Html::resetButton('Reset', [ 'class' => 'btn btn-default' ] ) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
