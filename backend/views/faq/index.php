@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel backend\models\FaqSearch */
+/* @var $searchModel backend\models\search\FaqSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Faqs';
@@ -26,15 +26,21 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
+            'category_id',
             'question',
+            'slug',
             'answer',
-            'cateogry_id',
-            'is_featured',
-            //'weight',
+            //'image',
+            //'meta_title',
+            //'meta_keywords',
+            //'meta_description',
+            //'position',
+            //'is_featured',
+            //'is_active',
             //'created_by',
             //'updated_by',
             //'created_at',
-            //'update_by',
+            //'update_at',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

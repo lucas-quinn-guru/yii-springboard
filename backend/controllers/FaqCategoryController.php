@@ -4,7 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\FaqCategory;
-use backend\models\FaqCategorySearch;
+use backend\models\search\FaqCategorySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

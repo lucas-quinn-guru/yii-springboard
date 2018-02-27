@@ -7,12 +7,12 @@ use yii\widgets\DetailView;
 /* @var $model common\models\FaqCategory */
 
 $this->title = $model->name;
-$this->params[ 'breadcrumbs' ][] = [ 'label' => 'FAQ Categories', 'url' => [ 'index' ] ];
-$this->params[ 'breadcrumbs' ][] = $this->title;
+$this->params['breadcrumbs'][] = ['label' => 'Faq Categories', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="faq-category-view">
 
-    <h1>FAQ Category: <?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
@@ -28,13 +28,20 @@ $this->params[ 'breadcrumbs' ][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-			'id',
-			'name',
-			'weight',
-			[
-                'attribute' => 'is_featured',
-                'format' => 'boolean'
-            ],
+            'id',
+            'parent_id',
+            'name',
+            'slug',
+            'description:ntext',
+            'image',
+            'meta_title',
+            'meta_keywords',
+            'meta_description',
+            'position',
+            'is_featured',
+            'is_active',
+            'created_at',
+            'update_at',
         ],
     ]) ?>
 

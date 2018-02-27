@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\FaqSearch */
+/* @var $model backend\models\search\FaqSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -17,15 +17,27 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id') ?>
 
+    <?= $form->field($model, 'category_id') ?>
+
     <?= $form->field($model, 'question') ?>
+
+    <?= $form->field($model, 'slug') ?>
 
     <?= $form->field($model, 'answer') ?>
 
-    <?= $form->field($model, 'cateogry_id') ?>
+    <?php // echo $form->field($model, 'image') ?>
 
-    <?= $form->field($model, 'is_featured') ?>
+    <?php // echo $form->field($model, 'meta_title') ?>
 
-    <?php // echo $form->field($model, 'weight') ?>
+    <?php // echo $form->field($model, 'meta_keywords') ?>
+
+    <?php // echo $form->field($model, 'meta_description') ?>
+
+    <?php // echo $form->field($model, 'position') ?>
+
+    <?php // echo $form->field($model, 'is_featured') ?>
+
+    <?php // echo $form->field($model, 'is_active') ?>
 
     <?php // echo $form->field($model, 'created_by') ?>
 
@@ -33,7 +45,7 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'created_at') ?>
 
-    <?php // echo $form->field($model, 'update_by') ?>
+    <?php // echo $form->field($model, 'update_at') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

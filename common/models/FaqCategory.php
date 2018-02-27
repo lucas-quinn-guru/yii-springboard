@@ -8,9 +8,19 @@ use Yii;
  * This is the model class for table "faq_category".
  *
  * @property int $id
+ * @property int $parent_id Parent category
  * @property string $name
- * @property int $weight
+ * @property string $slug
+ * @property string $description
+ * @property string $image
+ * @property string $meta_title
+ * @property string $meta_keywords
+ * @property string $meta_description
+ * @property int $position
  * @property int $is_featured
+ * @property int $is_active
+ * @property string $created_at
+ * @property string $update_at
  */
 class FaqCategory extends \yii\db\ActiveRecord
 {
@@ -27,13 +37,16 @@ class FaqCategory extends \yii\db\ActiveRecord
      */
     public function rules()
     {
-		return [
-			[ [ 'name' ], 'required' ],
-			[ [ 'name' ], 'string', 'max' => 45 ],
-			[ [ 'weight', 'is_featured' ], 'integer' ],
-			[ 'weight', 'default', 'value' => 100 ],
-			[ [ 'weight' ], 'in', 'range'=>range(1,100 ) ]
-		];
+        return [
+            [['parent_id', 'position', 'is_featured', 'is_active'], 'integer'],
+            [['name', 'slug'], 'required'],
+            [['description'], 'string'],
+            [['created_at', 'update_at'], 'safe'],
+            [['name', 'slug'], 'string', 'max' => 45],
+            [['image', 'meta_title'], 'string', 'max' => 80],
+            [['meta_keywords'], 'string', 'max' => 150],
+            [['meta_description'], 'string', 'max' => 255],
+        ];
     }
 
     /**
@@ -43,19 +56,19 @@ class FaqCategory extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
+            'parent_id' => 'Parent ID',
             'name' => 'Name',
-            'weight' => 'Weight',
+            'slug' => 'Slug',
+            'description' => 'Description',
+            'image' => 'Image',
+            'meta_title' => 'Meta Title',
+            'meta_keywords' => 'Meta Keywords',
+            'meta_description' => 'Meta Description',
+            'position' => 'Position',
             'is_featured' => 'Is Featured',
+            'is_active' => 'Is Active',
+            'created_at' => 'Created At',
+            'update_at' => 'Update At',
         ];
-    }
-	
-	public function getFaqs()
-	{
-		return $this->hasMany( Faq::className(), [ 'category_id' => 'id' ] );
-	}
-	
-	public static function getFaqCategoryIsFeaturedList()
-	{
-		return $droptions = [ 0 => "no", 1 => "yes" ];
     }
 }

@@ -1,16 +1,16 @@
 <?php
 
-namespace backend\models;
+namespace backend\models\search;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\Faq;
+use common\models\FaqCategory;
 
 /**
- * FaqSearch represents the model behind the search form of `common\models\Faq`.
+ * FaqCategorySearch represents the model behind the search form of `common\models\FaqCategory`.
  */
-class FaqSearch extends Faq
+class FaqCategorySearch extends FaqCategory
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class FaqSearch extends Faq
     public function rules()
     {
         return [
-            [['id', 'cateogry_id', 'is_featured', 'weight', 'created_by', 'updated_by'], 'integer'],
-            [['question', 'answer', 'created_at', 'update_by'], 'safe'],
+            [['id', 'parent_id', 'position', 'is_featured', 'is_active'], 'integer'],
+            [['name', 'slug', 'description', 'image', 'meta_title', 'meta_keywords', 'meta_description', 'created_at', 'update_at'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class FaqSearch extends Faq
      */
     public function search($params)
     {
-        $query = Faq::find();
+        $query = FaqCategory::find();
 
         // add conditions that should always apply here
 
@@ -60,17 +60,21 @@ class FaqSearch extends Faq
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'cateogry_id' => $this->cateogry_id,
+            'parent_id' => $this->parent_id,
+            'position' => $this->position,
             'is_featured' => $this->is_featured,
-            'weight' => $this->weight,
-            'created_by' => $this->created_by,
-            'updated_by' => $this->updated_by,
+            'is_active' => $this->is_active,
             'created_at' => $this->created_at,
-            'update_by' => $this->update_by,
+            'update_at' => $this->update_at,
         ]);
 
-        $query->andFilterWhere(['like', 'question', $this->question])
-            ->andFilterWhere(['like', 'answer', $this->answer]);
+        $query->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'slug', $this->slug])
+            ->andFilterWhere(['like', 'description', $this->description])
+            ->andFilterWhere(['like', 'image', $this->image])
+            ->andFilterWhere(['like', 'meta_title', $this->meta_title])
+            ->andFilterWhere(['like', 'meta_keywords', $this->meta_keywords])
+            ->andFilterWhere(['like', 'meta_description', $this->meta_description]);
 
         return $dataProvider;
     }

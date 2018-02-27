@@ -14,15 +14,21 @@ class m180226_001226_create_faq_table extends Migration
     {
         $this->createTable('faq', [
             'id' => $this->primaryKey(),
+			'category_id' => $this->integer(),
 			'question' => $this->string( 255 )->notNull(),
+			'slug' => $this->string( 255 )->notNull(),
 			'answer' => $this->string( 1055 )->notNull(),
-			'cateogry_id' => $this->integer(),
-			'is_featured' => $this->boolean(),
-			'weight' => $this->integer()->defaultValue( 100 ),
+			'image' => $this->string( 80 )->null(),
+			'meta_title' => $this->string( 80 )->null(),
+			'meta_keywords' => $this->string( 150 )->null(),
+			'meta_description' => $this->string( 255 )->null(),
+			'position' => $this->smallInteger()->unsigned()->null()->defaultValue( 100 ),
+			'is_featured' => $this->boolean()->defaultValue( 0 ),
+			'is_active' => $this->boolean()->defaultValue( 1 ),
 			'created_by' => $this->integer(),
 			'updated_by' => $this->integer(),
 			'created_at' => $this->dateTime(),
-			'update_by' => $this->dateTime()
+			'update_at' => $this->dateTime()
         ]);
     }
 
