@@ -16,9 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 	<h1><?= Html::encode($this->title) ?></h1>
 	
-	<?php   echo Collapse::widget([
-		
-		
+	<?php echo Collapse::widget([
 		'items' => [
 			// equivalent to the above
 			[
@@ -27,11 +25,8 @@ $this->params['breadcrumbs'][] = $this->title;
 				// open its content by default
 				//'contentOptions' => ['class' => 'in']
 			],
-		
 		]
 	]);
-	
-	
 	?>
 	
 	

@@ -21,9 +21,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name') ?>
 
-    <?= $form->field($model, 'slug') ?>
+    <?php // echo $form->field($model, 'slug') ?>
 
-    <?= $form->field($model, 'description') ?>
+    <?php // echo $form->field($model, 'description') ?>
 
     <?php // echo $form->field($model, 'image') ?>
 
@@ -34,7 +34,11 @@ use yii\widgets\ActiveForm;
     <?php // echo $form->field($model, 'meta_description') ?>
 
     <?php // echo $form->field($model, 'position') ?>
-
+	
+	<?= $form->field($model, 'is_featured')->
+	dropDownList($model->faqCategoryIsFeaturedList,
+		[ 'prompt' => 'Please Choose One' ])?>
+    
     <?php // echo $form->field($model, 'is_featured') ?>
 
     <?php // echo $form->field($model, 'is_active') ?>

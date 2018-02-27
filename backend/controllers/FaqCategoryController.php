@@ -3,11 +3,12 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\FaqCategory;
-use backend\models\search\FaqCategorySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use backend\models\search\FaqCategorySearch;
+use common\models\FaqCategory;
+use common\helpers\PermissionHelpers;
 
 /**
  * FaqCategoryController implements the CRUD actions for FaqCategory model.
@@ -20,6 +21,22 @@ class FaqCategoryController extends Controller
     public function behaviors()
     {
         return [
+			'access' => [
+				'class' => \yii\filters\AccessControl::className(),
+				'only' => ['index', 'view','create', 'update', 'delete'],
+				'rules' => [
+					[
+						'actions' => [ 'index', 'view', 'create', 'update', 'delete' ],
+						'allow' => true,
+						'roles' => [ '@' ],
+						'matchCallback' => function ($rule, $action)
+						{
+							return Yii::$app->user->can('Admin')
+								   && PermissionHelpers::requireStatus('Active');
+						}
+					],
+				],
+			],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -31,17 +48,45 @@ class FaqCategoryController extends Controller
 
     /**
      * Lists all FaqCategory models.
+	 * @throws
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new FaqCategorySearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+		$model = new FaqCategory();
+	
+		$parentCategory = false;
+	
+		if( Yii::$app->request->getQueryParam('id' ) != "" )
+		{
+			$model  = $this->findModel( Yii::$app->request->getQueryParam('id' ) );
+		}
+	
+		if( Yii::$app->request->getQueryParam('parent_id' ) != "" )
+		{
+			$model->parent_id = Yii::$app->request->getQueryParam('parent_id' );
+			$parentCategory = $this->findModel( $model->parent_id );
+		}
+		
+		if( $model->load( Yii::$app->request->post() ) )
+		{
+			$model->save();
+			$model->upload();
+			if( $model->isNewRecord )
+			{
+				Yii::$app->getSession()->setFlash('success', 'Category information has been stored.' );
+				return $this->redirect( [ 'index' ] );
+			} else
+			{
+				Yii::$app->getSession()->setFlash('success', 'Category information updated successfully.' );
+				$this->refresh();
+			}
+		}
+		
+		return $this->render('index', [
+			'model' => $model,
+			'parentCategory' => $parentCategory
+		] );
     }
 
     /**
@@ -100,7 +145,7 @@ class FaqCategoryController extends Controller
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
+     * @throws
      */
     public function actionDelete($id)
     {
