@@ -25,10 +25,14 @@ use yii\helpers\Html;
  * @property int $is_featured
  * @property int $is_active
  * @property string $created_at
- * @property string $update_at
+ * @property string $updated_at
  */
 class FaqCategory extends \yii\db\ActiveRecord
 {
+	//Path where category images will be uploaded
+	const UPLOAD_DIR = '@frontendroot/uploads/category-images';
+	const UPLOAD_URL = '@frontend/uploads/category-images';
+	
     /**
      * @inheritdoc
      */
@@ -49,7 +53,7 @@ class FaqCategory extends \yii\db\ActiveRecord
 			[ 'position', 'default', 'value' => 100 ],
 			[ [ 'position' ], 'in', 'range' => range( 1,100 ) ],
             [ [ 'description' ], 'string' ],
-            [ [ 'created_at', 'update_at' ], 'safe' ],
+            [ [ 'created_at', 'updated_at' ], 'safe' ],
             [ [ 'image', 'meta_title' ], 'string', 'max' => 80 ],
 			[ [ 'image' ], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg' ],
 			[ [ 'meta_keywords' ], 'string', 'max' => 150 ],
@@ -76,7 +80,7 @@ class FaqCategory extends \yii\db\ActiveRecord
             'is_featured' => 'Is Featured',
             'is_active' => 'Is Active',
             'created_at' => 'Created At',
-            'update_at' => 'Update At',
+            'updated_at' => 'Updated At',
         ];
     }
 	
@@ -212,10 +216,10 @@ class FaqCategory extends \yii\db\ActiveRecord
 	public static function getImage( $categoryId, $type, $htmlOptions = [] )
 	{
 		
-		$uploadThumbs = Yii::$app->getModule('categories' )->uploadThumbs;
-		$uploadUrl = Yii::$app->getModule('categories' )->uploadUrl;
+		$uploadThumbs = Yii::$app->params[ 'uploadThumbs' ];
+		$uploadUrl = self::UPLOAD_URL;
 		$model = self::find()->where( [ 'id' => $categoryId ] )->one();
-		$htmlOptionsDefault = [ 'alt' => $model->name,'title' => $model->name ];
+		$htmlOptionsDefault = [ 'alt' => $model->name, 'title' => $model->name ];
 		
 		if( isset( $uploadThumbs[ $type ][0] ) )
 		{
@@ -231,7 +235,7 @@ class FaqCategory extends \yii\db\ActiveRecord
 		if( empty( $model->image ) )
 		{
 			$image = null;
-			$image = Html::img(Yii::$app->getModule('categories' )->assets->baseUrl . '/no-image-found.jpg', $htmlOptions );
+			$image = Html::img('/images/no-image-found.jpg', $htmlOptions );
 		} else
 		{
 			$image = Html::img($uploadUrl . '/' . $type . '/' . $model->image, $htmlOptions );
@@ -241,13 +245,13 @@ class FaqCategory extends \yii\db\ActiveRecord
 	
 	public static function deleteImages( $categoryId )
 	{
-		$uploadDir = Yii::$app->getModule('categories' )->uploadDir;
-		$uploadThumbs = Yii::$app->getModule('categories' )->uploadThumbs;
+		$uploadDir = self::UPLOAD_DIR;
+		$uploadThumbs = Yii::$app->params[ 'uploadThumbs' ];
 		$model = self::find()->where( [ 'id' => $categoryId ] )->one();
 		
 		foreach( $uploadThumbs as $thumbDirName => $size )
 		{
-			$thumbPath = Yii::getAlias($uploadDir) . DIRECTORY_SEPARATOR . $thumbDirName;
+			$thumbPath = Yii::getAlias( $uploadDir ) . DIRECTORY_SEPARATOR . $thumbDirName;
 			$deletePath = Yii::getAlias($thumbPath . DIRECTORY_SEPARATOR . $model->image );
 			@unlink( $deletePath );
 		}

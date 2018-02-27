@@ -10,6 +10,8 @@ use yii\bootstrap\ButtonGroup;
 use yii\bootstrap\Button;
 use common\models\FaqCategory;
 
+CategoryAsset::register( $this );
+
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\search\FaqCategorySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -89,7 +91,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				<?php
 				$current_category = Yii::$app->request->getQueryParam('id');
 				?>
-				<?php echo FaqCategory::createTreeList($parent_id=NULL, $current_category ); ?>
+				<?php echo FaqCategory::createTreeList( $parent_id = NULL, $current_category ); ?>
             </div>
 
         </div>
@@ -104,17 +106,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 <nav class="navbar navbar-default navbar-static">
                     <div class="container-fluid">
                         <div class="navbar-header">
-						<span class="navbar-brand">
-							<?php if( $parentCategory ): ?>
-								<?php echo FaqCategory::printEditPath(Html::getAttributeValue( $parentCategory,'id' ) ); ?> - New Subcategory
-							<?php else: ?>
-								<?php if($model->id!=""): ?>
-									<?php echo FaqCategory::printEditPath(Html::getAttributeValue($model,'id')); ?> - Update category information
+							<span class="navbar-brand">
+								<?php if( $parentCategory ): ?>
+									<?php echo FaqCategory::printEditPath(Html::getAttributeValue( $parentCategory,'id' ) ); ?> - New Subcategory
 								<?php else: ?>
-                                    New Root Category
+									<?php if( $model->id != "" ): ?>
+										<?php echo FaqCategory::printEditPath(Html::getAttributeValue( $model,'id' ) ); ?> - Update category information
+									<?php else: ?>
+										New Root Category
+									<?php endif; ?>
 								<?php endif; ?>
-							<?php endif; ?>
-						</span>
+							</span>
                         </div>
                         <div class="pull-right" style="margin-top:8px">
 							<?= Html::submitButton('<i class="glyphicon glyphicon-floppy-disk"></i> Save Category', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
