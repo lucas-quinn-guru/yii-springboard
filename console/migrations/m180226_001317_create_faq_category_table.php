@@ -26,7 +26,7 @@ class m180226_001317_create_faq_category_table extends Migration
 			'is_featured' => $this->boolean()->defaultValue( 0 ),
 			'is_active' => $this->boolean()->defaultValue( 1 ),
 			'created_at' => $this->dateTime(),
-			'update_at' => $this->dateTime()
+			'updated_at' => $this->dateTime()
         ]);
     }
 

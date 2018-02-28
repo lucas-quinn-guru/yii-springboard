@@ -28,7 +28,7 @@ class m180226_001226_create_faq_table extends Migration
 			'created_by' => $this->integer(),
 			'updated_by' => $this->integer(),
 			'created_at' => $this->dateTime(),
-			'update_at' => $this->dateTime()
+			'updated_at' => $this->dateTime()
         ]);
     }
 
