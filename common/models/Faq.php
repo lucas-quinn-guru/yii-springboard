@@ -22,7 +22,7 @@ use Yii;
  * @property int $created_by
  * @property int $updated_by
  * @property string $created_at
- * @property string $update_at
+ * @property string $updated_at
  */
 class Faq extends \yii\db\ActiveRecord
 {
@@ -42,7 +42,7 @@ class Faq extends \yii\db\ActiveRecord
         return [
             [['category_id', 'position', 'is_featured', 'is_active', 'created_by', 'updated_by'], 'integer'],
             [['question', 'slug', 'answer'], 'required'],
-            [['created_at', 'update_at'], 'safe'],
+            [['created_at', 'updated_at'], 'safe'],
             [['question', 'slug', 'meta_description'], 'string', 'max' => 255],
             [['answer'], 'string', 'max' => 1055],
             [['image', 'meta_title'], 'string', 'max' => 80],
@@ -71,7 +71,12 @@ class Faq extends \yii\db\ActiveRecord
             'created_by' => 'Created By',
             'updated_by' => 'Updated By',
             'created_at' => 'Created At',
-            'update_at' => 'Update At',
+            'updated_at' => 'Updated At',
         ];
+    }
+
+	public function getFaqs()
+	{
+		return $this->hasMany( Faq::className(), [ 'faq_category_id' => 'id' ] );
     }
 }

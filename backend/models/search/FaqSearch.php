@@ -19,7 +19,7 @@ class FaqSearch extends Faq
     {
         return [
             [['id', 'category_id', 'position', 'is_featured', 'is_active', 'created_by', 'updated_by'], 'integer'],
-            [['question', 'slug', 'answer', 'image', 'meta_title', 'meta_keywords', 'meta_description', 'created_at', 'update_at'], 'safe'],
+            [['question', 'slug', 'answer', 'image', 'meta_title', 'meta_keywords', 'meta_description', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 
@@ -67,7 +67,7 @@ class FaqSearch extends Faq
             'created_by' => $this->created_by,
             'updated_by' => $this->updated_by,
             'created_at' => $this->created_at,
-            'update_at' => $this->update_at,
+            'updated_at' => $this->updated_at,
         ]);
 
         $query->andFilterWhere(['like', 'question', $this->question])
