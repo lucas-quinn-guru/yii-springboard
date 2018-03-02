@@ -186,8 +186,8 @@ class FaqCategory extends \yii\db\ActiveRecord
 		foreach( $categories as $category )
 		{
 			$html .= "<li>";
-			$class = (($category->id==$parent_id) || ( $category->id == $current_category ) ) ? "jstree-clicked" : "";
-			$url = Yii::$app->urlManager->createUrl( [ 'categories', 'id' => $category->id ] );
+			$class = ( ( $category->id == $parent_id ) || ( $category->id == $current_category ) ) ? "jstree-clicked" : "";
+			$url = Yii::$app->urlManager->createUrl( [ 'faq-category', 'id' => $category->id ] );
 			$html .= "<a class=\"" . $class . "\" href=\"" . $url . "\">";
 			$html .= Html::getAttributeValue( $category,'name' );
 			$html .= "</a>";
@@ -209,7 +209,7 @@ class FaqCategory extends \yii\db\ActiveRecord
 		{
 			$html .= self::printEditPath($category->parent_id, $html );
 		}
-		$html .= "<a href=\"" . Yii::$app->urlManager->createUrl( [ '/categories', 'id'=>$category->id ] ) . "\">" . $category->name . "</a> &nbsp;/ ";
+		$html .= "<a href=\"" . Yii::$app->urlManager->createUrl( [ '/faq-category', 'id'=>$category->id ] ) . "\">" . $category->name . "</a> &nbsp;/ ";
 		return $html;
 	}
 	

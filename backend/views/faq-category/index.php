@@ -13,8 +13,8 @@ use common\models\FaqCategory;
 CategoryAsset::register( $this );
 
 /* @var $this yii\web\View */
-/* @var $searchModel backend\models\search\FaqCategorySearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $model common\models\FaqCategory */
+/* @var $parentCategory common\models\FaqCategory */
 
 $this->title = 'FAQ Categories';
 $this->params['breadcrumbs'][] = $this->title;
@@ -40,9 +40,6 @@ $this->params['breadcrumbs'][] = $this->title;
 	]);
         */
 	?>
-    <p>
-        <?= Html::a('Create Faq Category', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
 
     <?php
     /*
@@ -76,12 +73,12 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-md-3">
 
             <div aria-label="Justified button group" role="group" class="btn-group btn-group-justified">
-                <a role="button" class="btn btn-default" href="<?php echo Yii::$app->urlManager->createUrl(['/categories']); ?>"><i class="glyphicon glyphicon-plus"></i> Root category</a>
+                <a role="button" class="btn btn-default" href="<?= Yii::$app->urlManager->createUrl( [ '/faq-category' ] ); ?>"><i class="glyphicon glyphicon-plus"></i> Root category</a>
 				
-				<?php if(Yii::$app->request->getQueryParam('parent_id')!=""): ?>
+				<?php if( Yii::$app->request->getQueryParam('parent_id' ) != "" ): ?>
                     <a role="button" class="btn btn-default disabled" href="javascript:void(0)"><i class="glyphicon glyphicon-plus"></i> Subcategory</a>
 				<?php else: ?>
-                    <a role="button" class="btn btn-default" href="<?php echo Yii::$app->urlManager->createUrl(['/categories','parent_id'=>Yii::$app->request->getQueryParam('id')]); ?>"><i class="glyphicon glyphicon-plus"></i> Subcategory</a>
+                    <a role="button" class="btn btn-default" href="<?= Yii::$app->urlManager->createUrl( [ '/faq-category','parent_id' => Yii::$app->request->getQueryParam('id' ) ] ); ?>"><i class="glyphicon glyphicon-plus"></i> Subcategory</a>
 				<?php endif; ?>
             </div>
 
@@ -89,7 +86,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <div id="yimd-categories-jstree">
 				<?php
-				$current_category = Yii::$app->request->getQueryParam('id');
+				$current_category = Yii::$app->request->getQueryParam('id' );
 				?>
 				<?php echo FaqCategory::createTreeList( $parent_id = NULL, $current_category ); ?>
             </div>
@@ -97,19 +94,20 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
         <div class="col-md-9">
 			
-			<?php echo $this->render('_alert'); ?>
+			<?php echo $this->render('_alert' ); ?>
 
             <div class="categories-form tab-content" style="min-height:400px;">
 				
-				<?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
+				<?php $form = ActiveForm::begin( [ 'options' => [ 'enctype' => 'multipart/form-data' ] ] ); ?>
 
                 <nav class="navbar navbar-default navbar-static">
                     <div class="container-fluid">
                         <div class="navbar-header">
-							<span class="navbar-brand">
-								<?php if( $parentCategory ): ?>
-									<?php echo FaqCategory::printEditPath(Html::getAttributeValue( $parentCategory,'id' ) ); ?> - New Subcategory
-								<?php else: ?>
+
+                            <span class="navbar-brand">
+                                <?php if( $parentCategory ): ?>
+                                    <?php echo FaqCategory::printEditPath(Html::getAttributeValue( $parentCategory,'id' ) ); ?> - New Subcategory
+                                <?php else: ?>
 									<?php if( $model->id != "" ): ?>
 										<?php echo FaqCategory::printEditPath(Html::getAttributeValue( $model,'id' ) ); ?> - Update category information
 									<?php else: ?>
