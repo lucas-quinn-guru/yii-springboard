@@ -144,7 +144,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				];
 				$tabItems[] = [
 					'label' => 'Meta information (SEO)',
-					'content' => $this->render("_form_seo",['model'=>$model,'form'=>$form]),
+					'content' => $this->render("../partials/_form_seo",['model'=>$model,'form'=>$form]),
 				];
 				
 				if($model->id!=''){

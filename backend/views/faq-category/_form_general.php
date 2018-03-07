@@ -14,3 +14,5 @@
 <?= $form->field( $model, 'description' )->textarea( [ 'rows' => 6 ] )->widget( \yii\redactor\widgets\Redactor::className() )->hint( 'Add description to category.' ); ?>
 
 <?= $form->field( $model, 'is_active' )->radioList( [ '1'=>'Active', '0'=>'Inactive' ] ); ?>
+<?= $form->field( $model, 'is_featured' )->dropDownList( $model->faqCategoryIsFeaturedList,
+	[ 'prompt' => 'Please Choose One' ] ); ?>
